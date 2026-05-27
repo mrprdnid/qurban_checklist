@@ -1,4 +1,8 @@
-<div class="sidebar-header">Data</div>
+<a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+    <i class="bi bi-house-fill"></i> Home
+</a>
+
+<div class="sidebar-header mt-2">Data</div>
 <a href="{{ route('hewan.index') }}" class="nav-link {{ request()->routeIs('hewan.*') && !request()->routeIs('hewan.import*') ? 'active' : '' }}">
     <i class="bi bi-list-ul"></i> Data Hewan
 </a>
