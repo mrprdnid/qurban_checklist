@@ -17,6 +17,22 @@
             <span class="badge {{ $hewan->jenis === 'domba' ? 'bg-primary' : 'bg-warning text-dark' }}">{{ ucfirst($hewan->jenis) }}</span>
         </div>
         <div class="small text-muted mt-1">{{ $hewan->nama_pekurban }}@if($hewan->nomor_wa) · <i class="bi bi-whatsapp text-success"></i> {{ $hewan->nomor_wa }}@endif</div>
+        @if($hewan->kode_registrasi)
+        <div class="mt-2 d-flex align-items-center gap-2 flex-wrap">
+            <span class="badge bg-success fs-6 px-3 py-2">
+                <i class="bi bi-qr-code me-1"></i>Kode: {{ $hewan->kode_registrasi }}
+            </span>
+            @if($hewan->nomor_wa)
+            <form method="POST" action="{{ route('checklist.kehadiran.kirim-wa', $hewan) }}" class="mb-0"
+                  onsubmit="return confirm('Kirim ulang WhatsApp ke {{ $hewan->nomor_wa }}?')">
+                @csrf
+                <button type="submit" class="btn btn-success btn-sm">
+                    <i class="bi bi-whatsapp me-1"></i>Kirim WA
+                </button>
+            </form>
+            @endif
+        </div>
+        @endif
     </div>
 </div>
 

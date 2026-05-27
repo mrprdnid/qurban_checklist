@@ -97,6 +97,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/checklist/kehadiran', [ChecklistKehadiranController::class, 'index'])->name('checklist.kehadiran');
     Route::get('/checklist/kehadiran/{hewan}', [ChecklistKehadiranController::class, 'show'])->name('checklist.kehadiran.show');
     Route::patch('/checklist/kehadiran/{hewan}', [ChecklistKehadiranController::class, 'update'])->name('checklist.kehadiran.update');
+    Route::post('/checklist/kehadiran/{hewan}/kirim-wa', [ChecklistKehadiranController::class, 'kirimWa'])->name('checklist.kehadiran.kirim-wa');
 
     // Admin only
     Route::middleware('admin')->group(function () {

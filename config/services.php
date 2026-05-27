@@ -28,6 +28,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'whatsapp' => [
+        'url'     => env('WHATSAPP_API_URL'),
+        'api_key' => env('WHATSAPP_API_KEY'),
+        'session' => env('WHATSAPP_SESSION'),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

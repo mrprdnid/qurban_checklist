@@ -10,7 +10,7 @@ class Hewan extends Model
     use HasAuditLog;
     protected $table = 'hewan';
 
-    protected $fillable = ['nomor_urut', 'jenis', 'nama_hewan', 'nama_pekurban', 'nomor_wa', 'keterangan'];
+    protected $fillable = ['nomor_urut', 'jenis', 'nama_hewan', 'nama_pekurban', 'nomor_wa', 'keterangan', 'kode_registrasi'];
 
     public function checklistKandang()
     {
