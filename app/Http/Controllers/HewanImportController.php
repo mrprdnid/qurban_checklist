@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Imports\HewanImport;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+class HewanImportController extends Controller
+{
+    public function index()
+    {
+        return view('hewan.import');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv|max:5120',
+        ]);
+
+        $import = new HewanImport();
+        Excel::import($import, $request->file('file'));
+
+        $r = $import->results;
+        $msg = "Import selesai: {$r['inserted']} data baru, {$r['updated']} data diperbarui.";
+
+        return back()
+            ->with('success', $msg)
+            ->with('import_errors', $r['errors']);
+    }
+
+    public function template()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Data Hewan');
+
+        $headers = ['nomor_urut', 'jenis', 'nama_hewan', 'nama_pekurban', 'nomor_wa', 'keterangan'];
+        foreach ($headers as $col => $header) {
+            $cell = chr(65 + $col) . '1';
+            $sheet->setCellValue($cell, $header);
+            $sheet->getStyle($cell)->getFont()->setBold(true);
+            $sheet->getColumnDimensionByColumn($col + 1)->setAutoSize(true);
+        }
+
+        // Style header row
+        $sheet->getStyle('A1:F1')->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setRGB('198754');
+        $sheet->getStyle('A1:F1')->getFont()->getColor()
+            ->setRGB('FFFFFF');
+
+        // Contoh data
+        $examples = [
+            ['D001', 'domba', 'Si Putih', 'Budi Santoso', '08123456789', ''],
+            ['D002', 'domba', '',          'Siti Rahma',   '',            'Titip tetangga'],
+            ['S001', 'sapi',  'Macan',     'Ahmad Fauzi',  '08987654321', ''],
+        ];
+        foreach ($examples as $row => $data) {
+            foreach ($data as $col => $val) {
+                $sheet->setCellValue(chr(65 + $col) . ($row + 2), $val);
+            }
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'template_data_hewan.xlsx';
+
+        return response()->streamDownload(function () use ($writer) {
+            $writer->save('php://output');
+        }, $filename, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
+    }
+}

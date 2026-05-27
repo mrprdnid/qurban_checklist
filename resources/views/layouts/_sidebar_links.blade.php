@@ -1,6 +1,9 @@
 <div class="sidebar-header">Data</div>
-<a href="{{ route('hewan.index') }}" class="nav-link {{ request()->routeIs('hewan.*') ? 'active' : '' }}">
+<a href="{{ route('hewan.index') }}" class="nav-link {{ request()->routeIs('hewan.*') && !request()->routeIs('hewan.import*') ? 'active' : '' }}">
     <i class="bi bi-list-ul"></i> Data Hewan
+</a>
+<a href="{{ route('hewan.import') }}" class="nav-link {{ request()->routeIs('hewan.import*') ? 'active' : '' }}">
+    <i class="bi bi-file-earmark-arrow-up"></i> Import Excel
 </a>
 <a href="{{ route('checklist.kehadiran') }}" class="nav-link {{ request()->routeIs('checklist.kehadiran*') ? 'active' : '' }}">
     <i class="bi bi-person-check"></i> Registrasi Kehadiran

@@ -46,6 +46,12 @@
         .card-header-green { background: #198754; color: #fff; }
         .progress-mini { height: 6px; }
 
+        /* ── Pagination ── */
+        .pagination { flex-wrap: wrap; }
+        .pagination svg, svg.w-5 { width: 14px !important; height: 14px !important; }
+        .w-5 { width: 14px !important; }
+        .h-5 { height: 14px !important; }
+
         /* ── Mobile cards ── */
         .animal-card { border-radius: 10px; border: 1px solid #dee2e6; background: #fff; margin-bottom: .75rem; }
         .animal-card .card-top { background: #198754; color: #fff; border-radius: 9px 9px 0 0; padding: .6rem .85rem; display: flex; justify-content: space-between; align-items: center; }

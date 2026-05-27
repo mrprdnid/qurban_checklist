@@ -9,6 +9,7 @@ use App\Http\Controllers\ChecklistSapiController;
 use App\Http\Controllers\ChecklistSesetController;
 use App\Http\Controllers\ChecklistPengambilanController;
 use App\Http\Controllers\ChecklistKehadiranController;
+use App\Http\Controllers\HewanImportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityLogController;
 use App\Models\Hewan;
@@ -62,6 +63,9 @@ Route::middleware('auth')->group(function () {
 
     // Data Hewan
     Route::resource('hewan', HewanController::class);
+    Route::get('/hewan-import', [HewanImportController::class, 'index'])->name('hewan.import');
+    Route::post('/hewan-import', [HewanImportController::class, 'store'])->name('hewan.import.store');
+    Route::get('/hewan-import/template', [HewanImportController::class, 'template'])->name('hewan.import.template');
 
     // Checklist Kandang
     Route::get('/checklist/kandang', [ChecklistKandangController::class, 'index'])->name('checklist.kandang');
