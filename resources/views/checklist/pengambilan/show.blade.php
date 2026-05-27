@@ -20,6 +20,13 @@
             @endif
         </div>
         <div class="small text-muted mt-1">{{ $hewan->nama_pekurban }}@if($hewan->nomor_wa) · <i class="bi bi-whatsapp text-success"></i> {{ $hewan->nomor_wa }}@endif</div>
+        @if($hewan->kode_registrasi)
+        <div class="mt-2">
+            <span class="badge bg-success fs-6 px-3 py-2">
+                <i class="bi bi-qr-code me-1"></i>Kode: {{ $hewan->kode_registrasi }}
+            </span>
+        </div>
+        @endif
     </div>
 </div>
 

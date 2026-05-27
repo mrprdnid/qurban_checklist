@@ -4,15 +4,16 @@
 @section('content')
 <h5 class="fw-bold mb-3"><i class="bi bi-house-door me-2 text-success"></i>Checklist Kandang — Domba</h5>
 
-<form method="GET" class="mb-3">
+<form method="GET" class="mb-2">
     <div class="input-group">
         <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
         <input type="text" name="q" class="form-control" placeholder="Cari no. urut, nama hewan, atau pekurban..." value="{{ $q }}">
-        @if($q)
+        @if($q || $status)
         <a href="{{ route('checklist.kandang') }}" class="btn btn-outline-secondary">Hapus</a>
         @endif
     </div>
 </form>
+@include('layouts._status_filter', ['filterRoute' => 'checklist.kandang'])
 
 <div class="list-group shadow-sm">
 @forelse($hewan as $h)

@@ -4,13 +4,14 @@
 @section('content')
 <h5 class="fw-bold mb-3"><i class="bi bi-scissors me-2 text-warning"></i>Checklist Sapi</h5>
 
-<form method="GET" class="mb-3">
+<form method="GET" class="mb-2">
     <div class="input-group">
         <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
         <input type="text" name="q" class="form-control" placeholder="Cari no. urut, nama hewan, atau pekurban..." value="{{ $q }}">
-        @if($q)<a href="{{ route('checklist.sapi') }}" class="btn btn-outline-secondary">Hapus</a>@endif
+        @if($q || $status)<a href="{{ route('checklist.sapi') }}" class="btn btn-outline-secondary">Hapus</a>@endif
     </div>
 </form>
+@include('layouts._status_filter', ['filterRoute' => 'checklist.sapi'])
 
 <div class="list-group shadow-sm">
 @forelse($hewan as $h)

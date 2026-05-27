@@ -8,7 +8,7 @@
     <div class="input-group">
         <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
         <input type="text" name="q" class="form-control" placeholder="Cari no. urut, nama hewan, atau pekurban..." value="{{ $q }}">
-        @if($q || $status)
+        @if($q || ($status ?? ''))
         <a href="{{ route('checklist.kehadiran') }}" class="btn btn-outline-secondary">Hapus</a>
         @endif
     </div>

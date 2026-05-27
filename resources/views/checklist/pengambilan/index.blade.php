@@ -4,13 +4,14 @@
 @section('content')
 <h5 class="fw-bold mb-3"><i class="bi bi-bag-check me-2 text-success"></i>Checklist Pengambilan Bagian Pekurban</h5>
 
-<form method="GET" class="mb-3">
+<form method="GET" class="mb-2">
     <div class="input-group">
         <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
         <input type="text" name="q" class="form-control" placeholder="Cari no. urut, nama hewan, atau pekurban..." value="{{ $q }}">
-        @if($q)<a href="{{ route('checklist.pengambilan') }}" class="btn btn-outline-secondary">Hapus</a>@endif
+        @if($q || $status)<a href="{{ route('checklist.pengambilan') }}" class="btn btn-outline-secondary">Hapus</a>@endif
     </div>
 </form>
+@include('layouts._status_filter', ['filterRoute' => 'checklist.pengambilan'])
 
 <div class="list-group shadow-sm">
 @forelse($hewan as $h)
@@ -27,6 +28,13 @@
             @if($h->nama_hewan)<span class="text-muted small">— {{ $h->nama_hewan }}</span>@endif
         </div>
         <div class="small text-muted">{{ $h->nama_pekurban }}</div>
+        @if($h->kode_registrasi)
+        <div class="mt-1">
+            <span class="badge bg-success" style="font-size:.7rem; letter-spacing:.05em">
+                <i class="bi bi-qr-code me-1"></i>{{ $h->kode_registrasi }}
+            </span>
+        </div>
+        @endif
     </div>
     <div class="text-end flex-shrink-0">
         @if($done === $total)<span class="badge bg-success">Selesai</span>

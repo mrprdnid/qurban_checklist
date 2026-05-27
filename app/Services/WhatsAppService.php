@@ -18,7 +18,7 @@ class WhatsAppService
                 ])
                 ->post(config('services.whatsapp.url'), [
                     'sessionId'   => config('services.whatsapp.session'),
-                    'chatId'      => '6282113009800',
+                    'chatId'      => $nomor,
                     'message'     => $pesan,
                     'typingTime'  => 2000,
                 ]);
