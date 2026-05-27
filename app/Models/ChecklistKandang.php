@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 namespace App\Models;
 
@@ -27,5 +27,3 @@ class ChecklistKandang extends Model
         return $this->belongsTo(Hewan::class);
     }
 }
-
-
