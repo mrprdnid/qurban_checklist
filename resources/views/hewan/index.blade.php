@@ -52,7 +52,8 @@
                     @if($done)<span class="badge bg-success">OTW Pengambilan</span>
                     @else<span class="badge bg-secondary">Proses</span>@endif
                 </td>
-                <td class="text-center">
+                <td class="text-center text-nowrap">
+                    <a href="{{ route('hewan.journey', $h) }}" class="btn btn-outline-success btn-sm" title="Journey"><i class="bi bi-map"></i></a>
                     <a href="{{ route('hewan.edit', $h) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil"></i></a>
                     <form action="{{ route('hewan.destroy', $h) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus data hewan ini?')">
                         @csrf @method('DELETE')
@@ -93,6 +94,9 @@
         @if($h->nomor_wa)<div class="small text-muted"><i class="bi bi-whatsapp text-success"></i> {{ $h->nomor_wa }}</div>@endif
         @if($h->keterangan)<div class="small text-muted mt-1">{{ $h->keterangan }}</div>@endif
         <div class="d-flex gap-2 mt-3">
+            <a href="{{ route('hewan.journey', $h) }}" class="btn btn-outline-success btn-sm">
+                <i class="bi bi-map me-1"></i>Journey
+            </a>
             <a href="{{ route('hewan.edit', $h) }}" class="btn btn-outline-primary btn-sm flex-grow-1">
                 <i class="bi bi-pencil me-1"></i>Edit
             </a>

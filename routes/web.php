@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
 
     // Data Hewan
     Route::resource('hewan', HewanController::class);
+    Route::get('/hewan/{hewan}/journey', [HewanController::class, 'journey'])->name('hewan.journey');
     Route::get('/hewan-import', [HewanImportController::class, 'index'])->name('hewan.import');
     Route::post('/hewan-import', [HewanImportController::class, 'store'])->name('hewan.import.store');
     Route::get('/hewan-import/template', [HewanImportController::class, 'template'])->name('hewan.import.template');

@@ -72,4 +72,18 @@ class HewanController extends Controller
         $hewan->delete();
         return redirect()->route('hewan.index')->with('success', 'Data hewan berhasil dihapus.');
     }
+
+    public function journey(Hewan $hewan)
+    {
+        $hewan->load([
+            'checklistKehadiran',
+            'checklistKandang',
+            'checklistSembelih',
+            'checklistSapi',
+            'checklistSeset',
+            'checklistPengambilan',
+        ]);
+
+        return view('hewan.journey', compact('hewan'));
+    }
 }
