@@ -14,6 +14,10 @@ class ChecklistKehadiranController extends Controller
         $q      = $request->query('q');
         $status = $request->query('status'); // belum | progress | selesai
 
+        $sort    = $request->query('sort');
+        $dir     = in_array($request->query('direction'), ['asc', 'desc']) ? $request->query('direction') : 'asc';
+        if (!in_array($sort, ['nomor_urut', 'nama_pekurban'])) { $sort = null; }
+
         $hewan = Hewan::with('checklistKehadiran')
             ->when($q, fn($query) => $query->where(function ($x) use ($q) {
                 $x->where('nomor_urut', 'like', "%{$q}%")
@@ -31,12 +35,14 @@ class ChecklistKehadiranController extends Controller
                 $x->whereNull('checklist_kehadiran.id')
                   ->orWhere(fn($a) => $a->where('checklist_kehadiran.absensi', 0)->where('checklist_kehadiran.penyerahan_tagging', 0));
             }))
-            ->orderByRaw('CASE WHEN checklist_kehadiran.absensi = 1 AND checklist_kehadiran.penyerahan_tagging = 1 THEN 1 ELSE 0 END ASC')
-            ->orderBy('hewan.id', 'desc')
+            ->when($sort,
+                fn($q) => $q->orderBy('hewan.' . $sort, $dir),
+                fn($q) => $q->orderByRaw('CASE WHEN checklist_kehadiran.absensi = 1 AND checklist_kehadiran.penyerahan_tagging = 1 THEN 1 ELSE 0 END ASC')->orderBy('hewan.id', 'desc')
+            )
             ->paginate(20)
             ->withQueryString();
 
-        return view('checklist.kehadiran.index', compact('hewan', 'q', 'status'));
+        return view('checklist.kehadiran.index', compact('hewan', 'q', 'status', 'sort', 'dir'));
     }
 
     public function show(Hewan $hewan)

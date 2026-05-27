@@ -9,17 +9,23 @@ class HewanController extends Controller
 {
     public function index(Request $request)
     {
-        $q = $request->query('q');
+        $q       = $request->query('q');
+        $sort    = $request->query('sort', 'nomor_urut');
+        $dir     = $request->query('direction', 'asc');
+        $allowed = ['nomor_urut', 'jenis', 'nama_hewan', 'nama_pekurban', 'nomor_wa'];
+        if (!in_array($sort, $allowed)) { $sort = 'nomor_urut'; }
+        if (!in_array($dir, ['asc', 'desc'])) { $dir = 'asc'; }
+
         $hewan = Hewan::when($q, fn($query) => $query->where(function ($x) use ($q) {
                 $x->where('nomor_urut', 'like', "%{$q}%")
                   ->orWhere('nama_hewan', 'like', "%{$q}%")
                   ->orWhere('nama_pekurban', 'like', "%{$q}%");
             }))
-            ->latest()
+            ->orderBy($sort, $dir)
             ->paginate(20)
             ->withQueryString();
 
-        return view('hewan.index', compact('hewan', 'q'));
+        return view('hewan.index', compact('hewan', 'q', 'sort', 'dir'));
     }
 
     public function create()

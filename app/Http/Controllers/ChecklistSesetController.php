@@ -10,8 +10,12 @@ class ChecklistSesetController extends Controller
 {
     public function index(Request $request)
     {
-        $q      = $request->query('q');
-        $status = $request->query('status');
+        $q       = $request->query('q');
+        $status  = $request->query('status');
+        $sort    = $request->query('sort');
+        $dir     = in_array($request->query('direction'), ['asc', 'desc']) ? $request->query('direction') : 'asc';
+        if (!in_array($sort, ['nomor_urut', 'nama_pekurban'])) { $sort = null; }
+
         $hewan = Hewan::with('checklistSeset')
             ->where('jenis', 'domba')
             ->when($q, fn($query) => $query->where(function ($x) use ($q) {
@@ -24,12 +28,14 @@ class ChecklistSesetController extends Controller
             ->when($status === 'selesai',  fn($q) => $q->whereRaw('checklist_seset.bagian_pekurban = 1 AND checklist_seset.kesesuaian_bagian = 1 AND checklist_seset.otw_pengambilan = 1'))
             ->when($status === 'belum',    fn($q) => $q->where(fn($x) => $x->whereNull('checklist_seset.id')->orWhereRaw('(checklist_seset.bagian_pekurban + checklist_seset.kesesuaian_bagian + checklist_seset.otw_pengambilan) = 0')))
             ->when($status === 'progress', fn($q) => $q->whereNotNull('checklist_seset.id')->whereRaw('(checklist_seset.bagian_pekurban + checklist_seset.kesesuaian_bagian + checklist_seset.otw_pengambilan) > 0')->whereRaw('NOT (checklist_seset.bagian_pekurban = 1 AND checklist_seset.kesesuaian_bagian = 1 AND checklist_seset.otw_pengambilan = 1)'))
-            ->orderByRaw('CASE WHEN checklist_seset.bagian_pekurban = 1 AND checklist_seset.kesesuaian_bagian = 1 AND checklist_seset.otw_pengambilan = 1 THEN 1 ELSE 0 END ASC')
-            ->orderBy('hewan.id', 'desc')
+            ->when($sort,
+                fn($q) => $q->orderBy('hewan.' . $sort, $dir),
+                fn($q) => $q->orderByRaw('CASE WHEN checklist_seset.bagian_pekurban = 1 AND checklist_seset.kesesuaian_bagian = 1 AND checklist_seset.otw_pengambilan = 1 THEN 1 ELSE 0 END ASC')->orderBy('hewan.id', 'desc')
+            )
             ->paginate(20)
             ->withQueryString();
 
-        return view('checklist.seset.index', compact('hewan', 'q', 'status'));
+        return view('checklist.seset.index', compact('hewan', 'q', 'status', 'sort', 'dir'));
     }
 
     public function show(Hewan $hewan)

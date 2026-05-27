@@ -10,8 +10,12 @@ class ChecklistPengambilanController extends Controller
 {
     public function index(Request $request)
     {
-        $q      = $request->query('q');
-        $status = $request->query('status');
+        $q       = $request->query('q');
+        $status  = $request->query('status');
+        $sort    = $request->query('sort');
+        $dir     = in_array($request->query('direction'), ['asc', 'desc']) ? $request->query('direction') : 'asc';
+        if (!in_array($sort, ['nomor_urut', 'nama_pekurban'])) { $sort = null; }
+
         $hewan = Hewan::with('checklistPengambilan')
             ->when($q, fn($query) => $query->where(function ($x) use ($q) {
                 $x->where('nomor_urut', 'like', "%{$q}%")
@@ -23,12 +27,14 @@ class ChecklistPengambilanController extends Controller
             ->when($status === 'selesai',  fn($q) => $q->whereRaw('checklist_pengambilan.kesesuaian_bagian = 1 AND checklist_pengambilan.sudah_diambil = 1'))
             ->when($status === 'belum',    fn($q) => $q->where(fn($x) => $x->whereNull('checklist_pengambilan.id')->orWhereRaw('(checklist_pengambilan.kesesuaian_bagian + checklist_pengambilan.sudah_diambil) = 0')))
             ->when($status === 'progress', fn($q) => $q->whereNotNull('checklist_pengambilan.id')->whereRaw('(checklist_pengambilan.kesesuaian_bagian + checklist_pengambilan.sudah_diambil) > 0')->whereRaw('NOT (checklist_pengambilan.kesesuaian_bagian = 1 AND checklist_pengambilan.sudah_diambil = 1)'))
-            ->orderByRaw('CASE WHEN checklist_pengambilan.kesesuaian_bagian = 1 AND checklist_pengambilan.sudah_diambil = 1 THEN 1 ELSE 0 END ASC')
-            ->orderBy('hewan.id', 'desc')
+            ->when($sort,
+                fn($q) => $q->orderBy('hewan.' . $sort, $dir),
+                fn($q) => $q->orderByRaw('CASE WHEN checklist_pengambilan.kesesuaian_bagian = 1 AND checklist_pengambilan.sudah_diambil = 1 THEN 1 ELSE 0 END ASC')->orderBy('hewan.id', 'desc')
+            )
             ->paginate(20)
             ->withQueryString();
 
-        return view('checklist.pengambilan.index', compact('hewan', 'q', 'status'));
+        return view('checklist.pengambilan.index', compact('hewan', 'q', 'status', 'sort', 'dir'));
     }
 
     public function show(Hewan $hewan)

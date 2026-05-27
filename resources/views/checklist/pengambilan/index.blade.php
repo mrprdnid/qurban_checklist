@@ -5,12 +5,15 @@
 <h5 class="fw-bold mb-3"><i class="bi bi-bag-check me-2 text-success"></i>Checklist Pengambilan Bagian Pekurban</h5>
 
 <form method="GET" class="mb-2">
+    @if($sort)<input type="hidden" name="sort" value="{{ $sort }}">
+    <input type="hidden" name="direction" value="{{ $dir }}">@endif
     <div class="input-group">
         <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
         <input type="text" name="q" class="form-control" placeholder="Cari no. urut, nama hewan, atau pekurban..." value="{{ $q }}">
         @if($q || $status)<a href="{{ route('checklist.pengambilan') }}" class="btn btn-outline-secondary">Hapus</a>@endif
     </div>
 </form>
+@include('layouts._sort_bar')
 @include('layouts._status_filter', ['filterRoute' => 'checklist.pengambilan'])
 
 <div class="list-group shadow-sm">

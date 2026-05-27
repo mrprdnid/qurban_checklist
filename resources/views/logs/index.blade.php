@@ -46,16 +46,28 @@
 </div>
 
 {{-- Desktop table --}}
+@php
+$thSort = function(string $col, string $label, string $style = '') use ($sort, $dir): string {
+    $newDir = ($sort === $col && $dir === 'asc') ? 'desc' : 'asc';
+    $url    = request()->fullUrlWithQuery(['sort' => $col, 'direction' => $newDir]);
+    $icon   = $sort === $col
+        ? '<i class="bi bi-caret-' . ($dir === 'asc' ? 'up' : 'down') . '-fill" style="font-size:.6rem"></i>'
+        : '<i class="bi bi-caret-up opacity-25" style="font-size:.6rem"></i>';
+    $th = '<th' . ($style ? ' style="' . htmlspecialchars($style, ENT_QUOTES) . '"' : '') . '>';
+    return $th . '<a href="' . htmlspecialchars($url, ENT_QUOTES) . '" class="text-decoration-none text-dark d-inline-flex align-items-center gap-1">'
+        . htmlspecialchars($label, ENT_QUOTES) . ' ' . $icon . '</a></th>';
+};
+@endphp
 <div class="card border-0 shadow-sm d-none d-md-block">
     <div class="card-body p-0">
         <table class="table table-hover mb-0 small">
             <thead>
                 <tr>
-                    <th style="width:140px">Waktu</th>
+                    {!! $thSort('created_at', 'Waktu', 'width:140px') !!}
                     <th>User</th>
                     <th>Model</th>
                     <th>ID</th>
-                    <th>Aksi</th>
+                    {!! $thSort('action', 'Aksi') !!}
                     <th>Perubahan</th>
                 </tr>
             </thead>

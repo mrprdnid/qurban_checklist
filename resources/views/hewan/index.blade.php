@@ -10,6 +10,10 @@
 </div>
 
 <form method="GET" class="mb-3">
+    @if($sort !== 'nomor_urut' || $dir !== 'asc')
+    <input type="hidden" name="sort" value="{{ $sort }}">
+    <input type="hidden" name="direction" value="{{ $dir }}">
+    @endif
     <div class="input-group">
         <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
         <input type="text" name="q" class="form-control" placeholder="Cari no. urut, nama hewan, atau pekurban..." value="{{ $q }}">
@@ -18,17 +22,28 @@
 </form>
 
 {{-- ── DESKTOP TABLE ── --}}
+@php
+$thSort = function(string $col, string $label) use ($sort, $dir): string {
+    $newDir = ($sort === $col && $dir === 'asc') ? 'desc' : 'asc';
+    $url    = request()->fullUrlWithQuery(['sort' => $col, 'direction' => $newDir]);
+    $icon   = $sort === $col
+        ? '<i class="bi bi-caret-' . ($dir === 'asc' ? 'up' : 'down') . '-fill" style="font-size:.6rem"></i>'
+        : '<i class="bi bi-caret-up opacity-25" style="font-size:.6rem"></i>';
+    return '<a href="' . htmlspecialchars($url, ENT_QUOTES) . '" class="text-decoration-none text-dark d-inline-flex align-items-center gap-1">'
+        . htmlspecialchars($label, ENT_QUOTES) . ' ' . $icon . '</a>';
+};
+@endphp
 <div class="card border-0 shadow-sm d-none d-md-block">
     <div class="card-body p-0">
         <div class="table-responsive">
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th>No. Urut</th>
-                    <th>Jenis</th>
-                    <th>Nama Hewan</th>
-                    <th>Nama Pekurban</th>
-                    <th>No. WA</th>
+                    <th>{!! $thSort('nomor_urut', 'No. Urut') !!}</th>
+                    <th>{!! $thSort('jenis', 'Jenis') !!}</th>
+                    <th>{!! $thSort('nama_hewan', 'Nama Hewan') !!}</th>
+                    <th>{!! $thSort('nama_pekurban', 'Nama Pekurban') !!}</th>
+                    <th>{!! $thSort('nomor_wa', 'No. WA') !!}</th>
                     <th>Keterangan</th>
                     <th>Status</th>
                     <th class="text-center">Aksi</th>

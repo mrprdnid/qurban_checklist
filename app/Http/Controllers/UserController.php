@@ -9,10 +9,16 @@ use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->get();
-        return view('users.index', compact('users'));
+        $sort    = $request->query('sort', 'name');
+        $dir     = $request->query('direction', 'asc');
+        $allowed = ['name', 'email', 'role', 'created_at'];
+        if (!in_array($sort, $allowed)) { $sort = 'name'; }
+        if (!in_array($dir, ['asc', 'desc'])) { $dir = 'asc'; }
+
+        $users = User::orderBy($sort, $dir)->get();
+        return view('users.index', compact('users', 'sort', 'dir'));
     }
 
     public function create()

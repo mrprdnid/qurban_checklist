@@ -10,7 +10,13 @@ class ActivityLogController extends Controller
 {
     public function index(Request $request)
     {
-        $query = ActivityLog::with('user')->latest('created_at');
+        $sort    = $request->query('sort', 'created_at');
+        $dir     = $request->query('direction', 'desc');
+        $allowed = ['created_at', 'action'];
+        if (!in_array($sort, $allowed)) { $sort = 'created_at'; }
+        if (!in_array($dir, ['asc', 'desc'])) { $dir = 'desc'; }
+
+        $query = ActivityLog::with('user');
 
         if ($request->filled('model')) {
             $query->where('loggable_type', $request->model);
@@ -22,9 +28,9 @@ class ActivityLogController extends Controller
             $query->where('user_id', $request->user_id);
         }
 
-        $logs  = $query->paginate(50)->withQueryString();
+        $logs  = $query->orderBy($sort, $dir)->paginate(50)->withQueryString();
         $users = User::orderBy('name')->get();
 
-        return view('logs.index', compact('logs', 'users'));
+        return view('logs.index', compact('logs', 'users', 'sort', 'dir'));
     }
 }

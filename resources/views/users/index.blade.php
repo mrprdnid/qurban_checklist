@@ -9,15 +9,26 @@
     </a>
 </div>
 
+@php
+$thSort = function(string $col, string $label) use ($sort, $dir): string {
+    $newDir = ($sort === $col && $dir === 'asc') ? 'desc' : 'asc';
+    $url    = request()->fullUrlWithQuery(['sort' => $col, 'direction' => $newDir]);
+    $icon   = $sort === $col
+        ? '<i class="bi bi-caret-' . ($dir === 'asc' ? 'up' : 'down') . '-fill" style="font-size:.6rem"></i>'
+        : '<i class="bi bi-caret-up opacity-25" style="font-size:.6rem"></i>';
+    return '<a href="' . htmlspecialchars($url, ENT_QUOTES) . '" class="text-decoration-none text-dark d-inline-flex align-items-center gap-1">'
+        . htmlspecialchars($label, ENT_QUOTES) . ' ' . $icon . '</a>';
+};
+@endphp
 <div class="card border-0 shadow-sm">
     <div class="card-body p-0">
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Dibuat</th>
+                    <th>{!! $thSort('name', 'Nama') !!}</th>
+                    <th>{!! $thSort('email', 'Email') !!}</th>
+                    <th>{!! $thSort('role', 'Role') !!}</th>
+                    <th>{!! $thSort('created_at', 'Dibuat') !!}</th>
                     <th class="text-center">Aksi</th>
                 </tr>
             </thead>
