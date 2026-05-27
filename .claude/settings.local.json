@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(New-Item -ItemType File -Path \"c:\\\\laragon\\\\www\\\\qurban\\\\database\\\\database.sqlite\" -Force)",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\laragon\\\\www\\\\qurban\\\\resources\\\\views\\\\layouts\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\laragon\\\\www\\\\qurban\\\\resources\\\\views\\\\hewan\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\laragon\\\\www\\\\qurban\\\\resources\\\\views\\\\checklist\\\\kandang\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\laragon\\\\www\\\\qurban\\\\resources\\\\views\\\\checklist\\\\sembelih\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\laragon\\\\www\\\\qurban\\\\resources\\\\views\\\\checklist\\\\sapi\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\laragon\\\\www\\\\qurban\\\\resources\\\\views\\\\checklist\\\\seset\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\laragon\\\\www\\\\qurban\\\\resources\\\\views\\\\checklist\\\\pengambilan\")",
+      "PowerShell(php -r \"echo phpversion\\(\\); echo PHP_EOL; echo php_ini_loaded_file\\(\\);\")",
+      "PowerShell(Start-Sleep -Milliseconds 2000; \\(Invoke-WebRequest -Uri \"http://127.0.0.1:8001\" -UseBasicParsing -TimeoutSec 5\\).StatusCode 2>&1)",
+      "PowerShell(Start-Sleep -Milliseconds 3000; \\(Invoke-WebRequest -Uri \"http://127.0.0.1:8001\" -UseBasicParsing -TimeoutSec 8\\).StatusCode)",
+      "PowerShell(\\(Invoke-WebRequest -Uri \"http://127.0.0.1:8001\" -UseBasicParsing -TimeoutSec 15\\).StatusCode)",
+      "PowerShell(cd \"c:\\\\laragon\\\\www\\\\qurban\"; php -r \"require 'vendor/autoload.php'; \\\\$app = require 'bootstrap/app.php'; echo 'OK';\" 2>&1)",
+      "PowerShell(\\(Invoke-WebRequest -Uri \"http://127.0.0.1:8001\" -UseBasicParsing -TimeoutSec 15 -ErrorAction SilentlyContinue\\).Content | Select-Object -First 50)",
+      "PowerShell(@\\(\"http://127.0.0.1:8001/hewan\", \"http://127.0.0.1:8001/hewan/create\", \"http://127.0.0.1:8001/checklist/kandang\", \"http://127.0.0.1:8001/checklist/sembelih\", \"http://127.0.0.1:8001/checklist/sapi\", \"http://127.0.0.1:8001/checklist/seset\", \"http://127.0.0.1:8001/checklist/pengambilan\"\\) | ForEach-Object { $url = $_; try { $code = \\(Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 10\\).StatusCode; \"$url => $code\" } catch { \"$url => ERROR: $\\($_.Exception.Message\\)\" } })",
+      "PowerShell(@\\(\"http://127.0.0.1:8001\", \"http://127.0.0.1:8001/hewan\", \"http://127.0.0.1:8001/hewan/create\", \"http://127.0.0.1:8001/checklist/kandang\", \"http://127.0.0.1:8001/checklist/sembelih\", \"http://127.0.0.1:8001/checklist/sapi\", \"http://127.0.0.1:8001/checklist/seset\", \"http://127.0.0.1:8001/checklist/pengambilan\"\\) | ForEach-Object { $url = $_; try { $code = \\(Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 10\\).StatusCode; \"$code $url\" } catch { \"ERR $url - $\\($_.Exception.Message.Split\\([char]10\\)[0]\\)\" } })",
+      "PowerShell(\\(Invoke-WebRequest -Uri \"http://127.0.0.1:8001/hewan/create\" -UseBasicParsing -TimeoutSec 10\\).StatusCode)",
+      "PowerShell(@\\(\"http://127.0.0.1:8001/checklist/kandang\",\"http://127.0.0.1:8001/checklist/sembelih\",\"http://127.0.0.1:8001/checklist/sapi\",\"http://127.0.0.1:8001/checklist/seset\",\"http://127.0.0.1:8001/checklist/pengambilan\"\\) | ForEach-Object { $url = $_; try { \"$\\(\\(Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 10\\).StatusCode\\) $url\" } catch { \"ERR $url\" } })",
+      "PowerShell(\\(Invoke-WebRequest -Uri \"http://127.0.0.1:8001/hewan\" -UseBasicParsing -TimeoutSec 10\\).StatusCode; \\(Invoke-WebRequest -Uri \"http://127.0.0.1:8001/hewan?q=test\" -UseBasicParsing -TimeoutSec 10\\).StatusCode)"
+    ]
+  }
+}
