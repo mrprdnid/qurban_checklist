@@ -10,14 +10,17 @@ class ChecklistKehadiranController extends Controller
 {
     public function index(Request $request)
     {
-        $q = $request->get('q');
+        $q = $request->query('q');
         $hewan = Hewan::with('checklistKehadiran')
             ->when($q, fn($query) => $query->where(function ($x) use ($q) {
                 $x->where('nomor_urut', 'like', "%{$q}%")
                   ->orWhere('nama_hewan', 'like', "%{$q}%")
                   ->orWhere('nama_pekurban', 'like', "%{$q}%");
             }))
-            ->latest()
+            ->leftJoin('checklist_kehadiran', 'checklist_kehadiran.hewan_id', '=', 'hewan.id')
+            ->select('hewan.*')
+            ->orderByRaw('CASE WHEN checklist_kehadiran.absensi = 1 AND checklist_kehadiran.penyerahan_tagging = 1 THEN 1 ELSE 0 END ASC')
+            ->orderBy('hewan.id', 'desc')
             ->paginate(20)
             ->withQueryString();
 

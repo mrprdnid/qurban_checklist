@@ -9,7 +9,7 @@ class HewanController extends Controller
 {
     public function index(Request $request)
     {
-        $q = $request->get('q');
+        $q = $request->query('q');
         $hewan = Hewan::when($q, fn($query) => $query->where(function ($x) use ($q) {
                 $x->where('nomor_urut', 'like', "%{$q}%")
                   ->orWhere('nama_hewan', 'like', "%{$q}%")

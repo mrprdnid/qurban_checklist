@@ -10,7 +10,7 @@ class ChecklistSapiController extends Controller
 {
     public function index(Request $request)
     {
-        $q = $request->get('q');
+        $q = $request->query('q');
         $hewan = Hewan::with('checklistSapi')
             ->where('jenis', 'sapi')
             ->when($q, fn($query) => $query->where(function ($x) use ($q) {
@@ -18,7 +18,10 @@ class ChecklistSapiController extends Controller
                   ->orWhere('nama_hewan', 'like', "%{$q}%")
                   ->orWhere('nama_pekurban', 'like', "%{$q}%");
             }))
-            ->latest()
+            ->leftJoin('checklist_sapi', 'checklist_sapi.hewan_id', '=', 'hewan.id')
+            ->select('hewan.*')
+            ->orderByRaw('CASE WHEN checklist_sapi.foto_hidup = 1 AND checklist_sapi.video_sembelih = 1 AND checklist_sapi.bagian_pekurban = 1 AND checklist_sapi.kesesuaian_bagian = 1 AND checklist_sapi.otw_pengambilan = 1 THEN 1 ELSE 0 END ASC')
+            ->orderBy('hewan.id', 'desc')
             ->paginate(20)
             ->withQueryString();
 

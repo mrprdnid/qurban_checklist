@@ -10,7 +10,7 @@ class ChecklistSembelihController extends Controller
 {
     public function index(Request $request)
     {
-        $q = $request->get('q');
+        $q = $request->query('q');
         $hewan = Hewan::with('checklistSembelih')
             ->where('jenis', 'domba')
             ->when($q, fn($query) => $query->where(function ($x) use ($q) {
@@ -18,7 +18,10 @@ class ChecklistSembelihController extends Controller
                   ->orWhere('nama_hewan', 'like', "%{$q}%")
                   ->orWhere('nama_pekurban', 'like', "%{$q}%");
             }))
-            ->latest()
+            ->leftJoin('checklist_sembelih', 'checklist_sembelih.hewan_id', '=', 'hewan.id')
+            ->select('hewan.*')
+            ->orderByRaw('CASE WHEN checklist_sembelih.foto_sembelih = 1 AND checklist_sembelih.video_sembelih = 1 AND checklist_sembelih.otw_seset = 1 THEN 1 ELSE 0 END ASC')
+            ->orderBy('hewan.id', 'desc')
             ->paginate(20)
             ->withQueryString();
 
