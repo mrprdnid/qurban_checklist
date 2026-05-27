@@ -11,7 +11,9 @@ class ChecklistKehadiranController extends Controller
 {
     public function index(Request $request)
     {
-        $q = $request->query('q');
+        $q      = $request->query('q');
+        $status = $request->query('status'); // belum | progress | selesai
+
         $hewan = Hewan::with('checklistKehadiran')
             ->when($q, fn($query) => $query->where(function ($x) use ($q) {
                 $x->where('nomor_urut', 'like', "%{$q}%")
@@ -20,12 +22,21 @@ class ChecklistKehadiranController extends Controller
             }))
             ->leftJoin('checklist_kehadiran', 'checklist_kehadiran.hewan_id', '=', 'hewan.id')
             ->select('hewan.*')
+            ->when($status === 'selesai',  fn($q) => $q->where('checklist_kehadiran.absensi', 1)->where('checklist_kehadiran.penyerahan_tagging', 1))
+            ->when($status === 'progress', fn($q) => $q->where(function ($x) {
+                $x->where(fn($a) => $a->where('checklist_kehadiran.absensi', 1)->where('checklist_kehadiran.penyerahan_tagging', 0))
+                  ->orWhere(fn($a) => $a->where('checklist_kehadiran.absensi', 0)->where('checklist_kehadiran.penyerahan_tagging', 1));
+            }))
+            ->when($status === 'belum',    fn($q) => $q->where(function ($x) {
+                $x->whereNull('checklist_kehadiran.id')
+                  ->orWhere(fn($a) => $a->where('checklist_kehadiran.absensi', 0)->where('checklist_kehadiran.penyerahan_tagging', 0));
+            }))
             ->orderByRaw('CASE WHEN checklist_kehadiran.absensi = 1 AND checklist_kehadiran.penyerahan_tagging = 1 THEN 1 ELSE 0 END ASC')
             ->orderBy('hewan.id', 'desc')
             ->paginate(20)
             ->withQueryString();
 
-        return view('checklist.kehadiran.index', compact('hewan', 'q'));
+        return view('checklist.kehadiran.index', compact('hewan', 'q', 'status'));
     }
 
     public function show(Hewan $hewan)

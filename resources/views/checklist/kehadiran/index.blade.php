@@ -4,13 +4,33 @@
 @section('content')
 <h5 class="fw-bold mb-3"><i class="bi bi-person-check me-2 text-success"></i>Registrasi Kehadiran Pekurban</h5>
 
-<form method="GET" class="mb-3">
+<form method="GET" class="mb-2">
     <div class="input-group">
         <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
         <input type="text" name="q" class="form-control" placeholder="Cari no. urut, nama hewan, atau pekurban..." value="{{ $q }}">
-        @if($q)<a href="{{ route('checklist.kehadiran') }}" class="btn btn-outline-secondary">Hapus</a>@endif
+        @if($q || $status)
+        <a href="{{ route('checklist.kehadiran') }}" class="btn btn-outline-secondary">Hapus</a>
+        @endif
     </div>
 </form>
+
+<div class="d-flex gap-2 mb-3 flex-wrap">
+    @php
+    $filters = [
+        ''         => ['label' => 'Semua',      'class' => 'btn-outline-secondary'],
+        'belum'    => ['label' => 'Belum',       'class' => 'btn-outline-danger'],
+        'progress' => ['label' => 'On Progress', 'class' => 'btn-outline-warning'],
+        'selesai'  => ['label' => 'Selesai',     'class' => 'btn-outline-success'],
+    ];
+    @endphp
+    @foreach($filters as $val => $f)
+    @php $active = ($status ?? '') === $val; @endphp
+    <a href="{{ route('checklist.kehadiran', array_filter(['q' => $q, 'status' => $val ?: null])) }}"
+       class="btn btn-sm {{ $active ? str_replace('outline-', '', $f['class']) . ' text-white' : $f['class'] }}">
+        {{ $f['label'] }}
+    </a>
+    @endforeach
+</div>
 
 <div class="list-group shadow-sm">
 @forelse($hewan as $h)
@@ -27,6 +47,13 @@
             <span class="badge {{ $h->jenis === 'domba' ? 'bg-primary' : 'bg-warning text-dark' }} ms-1" style="font-size:.65rem">{{ ucfirst($h->jenis) }}</span>
         </div>
         <div class="small text-muted">{{ $h->nama_pekurban }}</div>
+        @if($h->kode_registrasi)
+        <div class="mt-1">
+            <span class="badge bg-success" style="font-size:.7rem; letter-spacing:.05em">
+                <i class="bi bi-qr-code me-1"></i>{{ $h->kode_registrasi }}
+            </span>
+        </div>
+        @endif
     </div>
     <div class="text-end flex-shrink-0">
         @if($done === $total)<span class="badge bg-success">Selesai</span>
