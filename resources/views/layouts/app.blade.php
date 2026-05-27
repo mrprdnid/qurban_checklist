@@ -67,7 +67,14 @@
     <a href="{{ route('dashboard') }}" class="navbar-brand mb-0 fw-bold ms-1">
         <i class="bi bi-moon-stars-fill me-1"></i>Kurban
     </a>
-    <span></span>{{-- spacer --}}
+    @auth
+    <form method="POST" action="{{ route('logout') }}" class="mb-0">
+        @csrf
+        <button type="submit" class="btn btn-link text-white p-1" title="Logout">
+            <i class="bi bi-box-arrow-right fs-5"></i>
+        </button>
+    </form>
+    @endauth
 </nav>
 
 <div class="d-flex">
@@ -78,6 +85,22 @@
             <i class="bi bi-moon-stars-fill fs-5"></i> Kurban
         </a>
         @include('layouts._sidebar_links')
+        @auth
+        <div class="mt-auto pt-2 border-top border-white border-opacity-25">
+            <div class="px-2 pb-1" style="color:rgba(255,255,255,.7);font-size:.78rem">
+                <i class="bi bi-person-circle me-1"></i>{{ auth()->user()->name }}
+                @if(auth()->user()->isAdmin())
+                <span class="badge bg-danger ms-1" style="font-size:.6rem">Admin</span>
+                @endif
+            </div>
+            <form method="POST" action="{{ route('logout') }}" class="mb-0">
+                @csrf
+                <button type="submit" class="nav-link w-100 text-start">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </button>
+            </form>
+        </div>
+        @endauth
     </nav>
 
     {{-- Mobile offcanvas sidebar --}}
@@ -88,8 +111,18 @@
             </a>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
         </div>
-        <div class="offcanvas-body p-2 pt-0">
+        <div class="offcanvas-body p-2 pt-0 d-flex flex-column">
             @include('layouts._sidebar_links')
+            @auth
+            <div class="mt-auto pt-2 border-top border-white border-opacity-25">
+                <div class="px-2 pb-1" style="color:rgba(255,255,255,.7);font-size:.78rem">
+                    <i class="bi bi-person-circle me-1"></i>{{ auth()->user()->name }}
+                    @if(auth()->user()->isAdmin())
+                    <span class="badge bg-danger ms-1" style="font-size:.6rem">Admin</span>
+                    @endif
+                </div>
+            </div>
+            @endauth
         </div>
     </div>
 

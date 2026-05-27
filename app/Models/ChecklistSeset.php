@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasAuditLog;
 use Illuminate\Database\Eloquent\Model;
 
 class ChecklistSeset extends Model
 {
+    use HasAuditLog;
+
     protected $table = 'checklist_seset';
 
     protected $fillable = [

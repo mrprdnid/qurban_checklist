@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasAuditLog;
 use Illuminate\Database\Eloquent\Model;
 
 class ChecklistSapi extends Model
 {
+    use HasAuditLog;
+
     protected $table = 'checklist_sapi';
 
     protected $fillable = [

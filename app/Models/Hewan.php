@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\HasAuditLog;
 use Illuminate\Database\Eloquent\Model;
 
 class Hewan extends Model
 {
+    use HasAuditLog;
     protected $table = 'hewan';
 
     protected $fillable = ['nomor_urut', 'jenis', 'nama_hewan', 'nama_pekurban', 'nomor_wa', 'keterangan'];

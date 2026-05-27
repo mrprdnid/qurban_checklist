@@ -1,11 +1,14 @@
-<?php
+﻿<?php
 
 namespace App\Models;
 
+use App\Traits\HasAuditLog;
 use Illuminate\Database\Eloquent\Model;
 
 class ChecklistKandang extends Model
 {
+    use HasAuditLog;
+
     protected $table = 'checklist_kandang';
 
     protected $fillable = ['hewan_id', 'ambil_domba', 'ambil_domba_at', 'foto_hidup', 'foto_hidup_at', 'otw_sembelih', 'otw_sembelih_at'];
@@ -24,3 +27,5 @@ class ChecklistKandang extends Model
         return $this->belongsTo(Hewan::class);
     }
 }
+
+

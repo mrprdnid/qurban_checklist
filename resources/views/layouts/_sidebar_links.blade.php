@@ -23,3 +23,13 @@
 <a href="{{ route('checklist.pengambilan') }}" class="nav-link {{ request()->routeIs('checklist.pengambilan') ? 'active' : '' }}">
     <i class="bi bi-bag-check"></i> Pengambilan Bagian
 </a>
+
+@if(auth()->check() && auth()->user()->isAdmin())
+<div class="sidebar-header mt-2">Admin</div>
+<a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
+    <i class="bi bi-people"></i> Manajemen User
+</a>
+<a href="{{ route('logs.index') }}" class="nav-link {{ request()->routeIs('logs.*') ? 'active' : '' }}">
+    <i class="bi bi-journal-text"></i> Log Aktivitas
+</a>
+@endif
