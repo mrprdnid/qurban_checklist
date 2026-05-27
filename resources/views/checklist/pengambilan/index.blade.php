@@ -14,7 +14,11 @@
 
 <div class="list-group shadow-sm">
 @forelse($hewan as $h)
-@php $cl = $h->checklistPengambilan; @endphp
+@php
+    $cl = $h->checklistPengambilan;
+    $done  = ($cl?->kesesuaian_bagian ? 1 : 0) + ($cl?->sudah_diambil ? 1 : 0);
+    $total = 2;
+@endphp
 <a href="{{ route('checklist.pengambilan.show', $h) }}" class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-3">
     <div class="flex-grow-1 min-w-0">
         <div class="d-flex align-items-center gap-2 mb-1">
@@ -25,13 +29,9 @@
         <div class="small text-muted">{{ $h->nama_pekurban }}</div>
     </div>
     <div class="text-end flex-shrink-0">
-        @if($cl?->diambil_at)
-            <span class="badge bg-success">Sudah Diambil</span>
-        @elseif($cl?->nomor_wa_pemesan || $cl?->paraf_pengambil)
-            <span class="badge bg-warning text-dark">Sebagian</span>
-        @else
-            <span class="badge bg-secondary">Belum</span>
-        @endif
+        @if($done === $total)<span class="badge bg-success">Selesai</span>
+        @elseif($done > 0)<span class="badge bg-warning text-dark">{{ $done }}/{{ $total }}</span>
+        @else<span class="badge bg-secondary">Belum</span>@endif
         <i class="bi bi-chevron-right text-muted ms-2"></i>
     </div>
 </a>

@@ -15,8 +15,8 @@
                 @if($hewan->nama_hewan)<span class="text-muted ms-1">— {{ $hewan->nama_hewan }}</span>@endif
             </div>
             <span class="badge {{ $hewan->jenis==='domba' ? 'bg-primary' : 'bg-warning text-dark' }}">{{ ucfirst($hewan->jenis) }}</span>
-            @if($checklist?->diambil_at)
-            <span class="badge bg-success ms-auto"><i class="bi bi-check-circle me-1"></i>Diambil {{ $checklist->diambil_at->format('H:i') }}</span>
+            @if($checklist?->sudah_diambil)
+            <span class="badge bg-success ms-auto"><i class="bi bi-check-circle me-1"></i>Diambil {{ $checklist->sudah_diambil_at?->format('H:i') }}</span>
             @endif
         </div>
         <div class="small text-muted mt-1">{{ $hewan->nama_pekurban }}@if($hewan->nomor_wa) · <i class="bi bi-whatsapp text-success"></i> {{ $hewan->nomor_wa }}@endif</div>
@@ -24,29 +24,31 @@
 </div>
 
 <div class="card border-0 shadow-sm">
-    <div class="card-header card-header-green fw-semibold">Data Pengambilan</div>
-    <div class="card-body">
+    <div class="card-header card-header-green fw-semibold">Item Checklist</div>
+    <div class="card-body p-0">
         <form action="{{ route('checklist.pengambilan.update', $hewan) }}" method="POST">
             @csrf @method('PATCH')
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Nomor WA Pemesan</label>
-                <input type="tel" name="nomor_wa_pemesan" class="form-control"
-                    value="{{ old('nomor_wa_pemesan', $checklist?->nomor_wa_pemesan) }}"
-                    placeholder="08xx-xxxx-xxxx">
+            @foreach([
+                ['field'=>'kesesuaian_bagian', 'label'=>'Kesesuaian Bagian', 'at'=>'kesesuaian_bagian_at'],
+                ['field'=>'sudah_diambil',     'label'=>'Sudah Diambil',     'at'=>'sudah_diambil_at'],
+            ] as $item)
+            <div class="d-flex align-items-center px-3 py-3 border-bottom">
+                <div class="flex-grow-1">
+                    <div class="fw-semibold">{{ $item['label'] }}</div>
+                    @if($checklist?->{$item['at']})
+                    <div class="small text-muted"><i class="bi bi-clock me-1"></i>{{ $checklist->{$item['at']}->format('H:i, d M Y') }}</div>
+                    @endif
+                </div>
+                <div class="form-check form-switch ms-3 mb-0">
+                    <input class="form-check-input" type="checkbox" role="switch"
+                        name="{{ $item['field'] }}" value="1" style="width:2.5em; height:1.3em;"
+                        {{ $checklist?->{$item['field']} ? 'checked' : '' }}>
+                </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Data Pengambilan</label>
-                <textarea name="data_pengambilan" class="form-control" rows="3"
-                    placeholder="Nama pengambil, alamat, catatan...">{{ old('data_pengambilan', $checklist?->data_pengambilan) }}</textarea>
+            @endforeach
+            <div class="px-3 py-3">
+                <button type="submit" class="btn btn-success w-100"><i class="bi bi-save me-1"></i> Simpan</button>
             </div>
-            <div class="mb-4">
-                <label class="form-label fw-semibold">Paraf Pengambil</label>
-                <input type="text" name="paraf_pengambil" class="form-control"
-                    value="{{ old('paraf_pengambil', $checklist?->paraf_pengambil) }}"
-                    placeholder="Nama / paraf">
-                <div class="form-text">Mengisi paraf akan mencatat waktu pengambilan secara otomatis.</div>
-            </div>
-            <button type="submit" class="btn btn-success w-100"><i class="bi bi-save me-1"></i> Simpan</button>
         </form>
     </div>
 </div>

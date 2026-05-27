@@ -19,7 +19,7 @@ class ChecklistPengambilanController extends Controller
             }))
             ->leftJoin('checklist_pengambilan', 'checklist_pengambilan.hewan_id', '=', 'hewan.id')
             ->select('hewan.*')
-            ->orderByRaw('CASE WHEN checklist_pengambilan.diambil_at IS NOT NULL THEN 1 ELSE 0 END ASC')
+            ->orderByRaw('CASE WHEN checklist_pengambilan.kesesuaian_bagian = 1 AND checklist_pengambilan.sudah_diambil = 1 THEN 1 ELSE 0 END ASC')
             ->orderBy('hewan.id', 'desc')
             ->paginate(20)
             ->withQueryString();
@@ -35,20 +35,16 @@ class ChecklistPengambilanController extends Controller
 
     public function update(Request $request, Hewan $hewan)
     {
-        $request->validate([
-            'nomor_wa_pemesan' => 'nullable|string|max:20',
-            'data_pengambilan' => 'nullable|string',
-            'paraf_pengambil'  => 'nullable|string|max:100',
-        ]);
-
         $checklist = $hewan->checklistPengambilan ?? new ChecklistPengambilan(['hewan_id' => $hewan->id]);
 
-        $checklist->nomor_wa_pemesan = $request->nomor_wa_pemesan;
-        $checklist->data_pengambilan = $request->data_pengambilan;
-        $checklist->paraf_pengambil  = $request->paraf_pengambil;
-
-        if ($request->filled('paraf_pengambil') && !$checklist->diambil_at) {
-            $checklist->diambil_at = now();
+        foreach (['kesesuaian_bagian', 'sudah_diambil'] as $field) {
+            $newValue = $request->boolean($field);
+            if ($newValue && !$checklist->$field) {
+                $checklist->{$field . '_at'} = now();
+            } elseif (!$newValue) {
+                $checklist->{$field . '_at'} = null;
+            }
+            $checklist->$field = $newValue;
         }
 
         $checklist->save();

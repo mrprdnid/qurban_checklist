@@ -11,10 +11,13 @@ class ChecklistPengambilan extends Model
 
     protected $table = 'checklist_pengambilan';
 
-    protected $fillable = ['hewan_id', 'nomor_wa_pemesan', 'data_pengambilan', 'paraf_pengambil', 'diambil_at'];
+    protected $fillable = ['hewan_id', 'kesesuaian_bagian', 'kesesuaian_bagian_at', 'sudah_diambil', 'sudah_diambil_at'];
 
     protected $casts = [
-        'diambil_at' => 'datetime',
+        'kesesuaian_bagian'    => 'boolean',
+        'sudah_diambil'        => 'boolean',
+        'kesesuaian_bagian_at' => 'datetime',
+        'sudah_diambil_at'     => 'datetime',
     ];
 
     public function hewan()

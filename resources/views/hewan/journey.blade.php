@@ -76,9 +76,8 @@ if ($hewan->jenis === 'domba') {
             'icon'    => 'bi-bag-check',
             'route'   => route('checklist.pengambilan.show', $hewan),
             'items'   => [
-                ['label' => 'Diambil',          'done' => (bool)$pengambilan?->diambil_at,      'at' => $pengambilan?->diambil_at],
-                ['label' => 'No. WA Pemesan',   'done' => (bool)$pengambilan?->nomor_wa_pemesan,'at' => null],
-                ['label' => 'Paraf Pengambil',  'done' => (bool)$pengambilan?->paraf_pengambil, 'at' => null],
+                ['label' => 'Kesesuaian Bagian', 'done' => (bool)$pengambilan?->kesesuaian_bagian, 'at' => $pengambilan?->kesesuaian_bagian_at],
+                ['label' => 'Sudah Diambil',     'done' => (bool)$pengambilan?->sudah_diambil,     'at' => $pengambilan?->sudah_diambil_at],
             ],
         ],
     ];
@@ -112,9 +111,8 @@ if ($hewan->jenis === 'domba') {
             'icon'    => 'bi-bag-check',
             'route'   => route('checklist.pengambilan.show', $hewan),
             'items'   => [
-                ['label' => 'Diambil',         'done' => (bool)$pengambilan?->diambil_at,       'at' => $pengambilan?->diambil_at],
-                ['label' => 'No. WA Pemesan',  'done' => (bool)$pengambilan?->nomor_wa_pemesan, 'at' => null],
-                ['label' => 'Paraf Pengambil', 'done' => (bool)$pengambilan?->paraf_pengambil,  'at' => null],
+                ['label' => 'Kesesuaian Bagian', 'done' => (bool)$pengambilan?->kesesuaian_bagian, 'at' => $pengambilan?->kesesuaian_bagian_at],
+                ['label' => 'Sudah Diambil',     'done' => (bool)$pengambilan?->sudah_diambil,     'at' => $pengambilan?->sudah_diambil_at],
             ],
         ],
     ];
