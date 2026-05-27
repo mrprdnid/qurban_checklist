@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
         $totalHewan = Hewan::count();
         $totalDomba = Hewan::where('jenis', 'domba')->count();
         $totalSapi = Hewan::where('jenis', 'sapi')->count();
-        $totalPengambilan = ChecklistPengambilan::whereNotNull('diambil_at')->count();
+        $totalPengambilan = ChecklistPengambilan::where('sudah_diambil', true)->count();
 
         $kandang = (object)[
             'ambil_domba' => ChecklistKandang::where('ambil_domba', true)->count(),
