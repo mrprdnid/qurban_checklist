@@ -12,12 +12,17 @@ use App\Http\Controllers\ChecklistKehadiranController;
 use App\Http\Controllers\HewanImportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\PublicJourneyController;
 use App\Models\Hewan;
 use App\Models\ChecklistKandang;
 use App\Models\ChecklistSembelih;
 use App\Models\ChecklistSapi;
 use App\Models\ChecklistSeset;
 use App\Models\ChecklistPengambilan;
+
+// Public (no auth required)
+Route::get('/journey', [PublicJourneyController::class, 'index'])->name('public.journey');
+Route::get('/journey/{kode}', [PublicJourneyController::class, 'show'])->name('public.journey.show');
 
 // Guest only
 Route::middleware('guest')->group(function () {

@@ -10,7 +10,8 @@ class WhatsAppService
     public function sendRegistrasiKehadiran(string $nomor, string $namaPekurban, string $kodeRegistrasi): bool
     {
         try {
-            $pesan = "Assalamu'alaikum, $namaPekurban.\nBismillah... Journey Qurbannya dimulai.\n\nKode Qurbanmu: $kodeRegistrasi.\n\nSampaikan Kode Qurbanmu saat pengambilan bagian hewan kurbanmu nanti. Kalau mau diambil oleh Ojek Online atau perantara lain, jangan lupa sampaikan Kode Qurbanmu ke perantaramu.\n\nJazakumullahu khairan katsiran.\n\n.:: Panitia Qurban KAF Pusat Depok 1447H ::.";
+            $journeyUrl = route('public.journey.show', $kodeRegistrasi);
+            $pesan = "Assalamu'alaikum, $namaPekurban.\nBismillah... Journey Qurbannya dimulai.\n\nKode Qurbanmu: $kodeRegistrasi.\n\nPantau perjalanan qurbanmu di sini:\n$journeyUrl\n\nSampaikan Kode Qurbanmu saat pengambilan bagian hewan kurbanmu nanti. Kalau mau diambil oleh Ojek Online atau perantara lain, jangan lupa sampaikan Kode Qurbanmu ke perantaramu.\n\nJazakumullahu khairan katsiran.\n\n.:: Panitia Qurban KAF Pusat Depok 1447H ::.";
             $response = Http::timeout(10)
                 ->withHeaders([
                     'X-Api-Key'    => config('services.whatsapp.api_key'),
