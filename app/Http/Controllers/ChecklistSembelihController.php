@@ -35,7 +35,7 @@ class ChecklistSembelihController extends Controller
     {
         $checklist = $hewan->checklistSembelih ?? new ChecklistSembelih(['hewan_id' => $hewan->id]);
 
-        foreach (['video_sembelih', 'otw_seset'] as $field) {
+        foreach (['video_sembelih', 'foto_sembelih', 'otw_seset'] as $field) {
             $newValue = $request->boolean($field);
             if ($newValue && !$checklist->$field) {
                 $checklist->{$field . '_at'} = now();
