@@ -16,7 +16,8 @@
 @forelse($hewan as $h)
 @php
     $cl = $h->checklistSembelih;
-    $done = ($cl?->video_sembelih ? 1 : 0) + ($cl?->otw_seset ? 1 : 0);
+    $done = ($cl?->foto_sembelih ? 1 : 0) + ($cl?->video_sembelih ? 1 : 0) + ($cl?->otw_seset ? 1 : 0);
+    $total = 3;
 @endphp
 <a href="{{ route('checklist.sembelih.show', $h) }}" class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-3">
     <div class="flex-grow-1 min-w-0">
@@ -27,8 +28,8 @@
         <div class="small text-muted">{{ $h->nama_pekurban }}</div>
     </div>
     <div class="text-end flex-shrink-0">
-        @if($done === 2)<span class="badge bg-success">Selesai</span>
-        @elseif($done > 0)<span class="badge bg-warning text-dark">{{ $done }}/2</span>
+        @if($done === $total)<span class="badge bg-success">Selesai</span>
+        @elseif($done > 0)<span class="badge bg-warning text-dark">{{ $done }}/{{ $total }}</span>
         @else<span class="badge bg-secondary">Belum</span>@endif
         <i class="bi bi-chevron-right text-muted ms-2"></i>
     </div>
