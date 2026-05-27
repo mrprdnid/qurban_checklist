@@ -2,6 +2,9 @@
 <a href="{{ route('hewan.index') }}" class="nav-link {{ request()->routeIs('hewan.*') ? 'active' : '' }}">
     <i class="bi bi-list-ul"></i> Data Hewan
 </a>
+<a href="{{ route('checklist.kehadiran') }}" class="nav-link {{ request()->routeIs('checklist.kehadiran*') ? 'active' : '' }}">
+    <i class="bi bi-person-check"></i> Registrasi Kehadiran
+</a>
 
 <div class="sidebar-header mt-2">Domba</div>
 <a href="{{ route('checklist.kandang') }}" class="nav-link {{ request()->routeIs('checklist.kandang') ? 'active' : '' }}">
@@ -20,7 +23,7 @@
 </a>
 
 <div class="sidebar-header mt-2">Pengambilan</div>
-<a href="{{ route('checklist.pengambilan') }}" class="nav-link {{ request()->routeIs('checklist.pengambilan') ? 'active' : '' }}">
+<a href="{{ route('checklist.pengambilan') }}" class="nav-link {{ request()->routeIs('checklist.pengambilan*') ? 'active' : '' }}">
     <i class="bi bi-bag-check"></i> Pengambilan Bagian
 </a>
 

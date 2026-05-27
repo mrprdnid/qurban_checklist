@@ -8,6 +8,7 @@ use App\Http\Controllers\ChecklistSembelihController;
 use App\Http\Controllers\ChecklistSapiController;
 use App\Http\Controllers\ChecklistSesetController;
 use App\Http\Controllers\ChecklistPengambilanController;
+use App\Http\Controllers\ChecklistKehadiranController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityLogController;
 use App\Models\Hewan;
@@ -86,6 +87,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/checklist/pengambilan', [ChecklistPengambilanController::class, 'index'])->name('checklist.pengambilan');
     Route::get('/checklist/pengambilan/{hewan}', [ChecklistPengambilanController::class, 'show'])->name('checklist.pengambilan.show');
     Route::patch('/checklist/pengambilan/{hewan}', [ChecklistPengambilanController::class, 'update'])->name('checklist.pengambilan.update');
+
+    // Registrasi Kehadiran Pekurban
+    Route::get('/checklist/kehadiran', [ChecklistKehadiranController::class, 'index'])->name('checklist.kehadiran');
+    Route::get('/checklist/kehadiran/{hewan}', [ChecklistKehadiranController::class, 'show'])->name('checklist.kehadiran.show');
+    Route::patch('/checklist/kehadiran/{hewan}', [ChecklistKehadiranController::class, 'update'])->name('checklist.kehadiran.update');
 
     // Admin only
     Route::middleware('admin')->group(function () {

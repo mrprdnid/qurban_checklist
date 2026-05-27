@@ -27,7 +27,9 @@
       "Bash(php artisan *)",
       "Bash(php -l app/Http/Middleware/AdminMiddleware.php)",
       "Bash(php -l app/Traits/HasAuditLog.php)",
-      "Bash(php -l app/Models/ChecklistKandang.php)"
+      "Bash(php -l app/Models/ChecklistKandang.php)",
+      "Bash(New-Item -ItemType Directory -Force \"c:\\\\laragon\\\\www\\\\qurban\\\\resources\\\\views\\\\checklist\\\\kehadiran\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\laragon\\\\www\\\\qurban\\\\resources\\\\views\\\\checklist\\\\kehadiran\")"
     ]
   }
 }

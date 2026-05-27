@@ -36,4 +36,9 @@ class Hewan extends Model
     {
         return $this->hasOne(ChecklistPengambilan::class);
     }
+
+    public function checklistKehadiran()
+    {
+        return $this->hasOne(ChecklistKehadiran::class);
+    }
 }
