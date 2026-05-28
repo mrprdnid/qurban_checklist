@@ -16,8 +16,26 @@
             </div>
             <span class="badge {{ $hewan->jenis === 'domba' ? 'bg-primary' : 'bg-warning text-dark' }}">{{ ucfirst($hewan->jenis) }}</span>
         </div>
-        <div class="small text-muted mt-1">{{ $hewan->nama_pekurban }}@if($hewan->nomor_wa) · <i class="bi bi-whatsapp text-success"></i> {{ $hewan->nomor_wa }}@endif</div>
+        <div class="small text-muted mt-1 d-flex align-items-center gap-2 flex-wrap">
+            <span>{{ $hewan->nama_pekurban }}</span>
+            @if($hewan->nomor_wa)
+            @php
+                $waNum = preg_replace('/\D/', '', $hewan->nomor_wa);
+                if (str_starts_with($waNum, '0')) $waNum = '62' . substr($waNum, 1);
+            @endphp
+            <a href="https://wa.me/{{ $waNum }}" target="_blank" class="btn btn-success btn-sm py-0 px-2" style="font-size:.75rem">
+                <i class="bi bi-whatsapp me-1"></i>{{ $hewan->nomor_wa }}
+            </a>
+            @endif
+        </div>
         @if($hewan->kode_registrasi)
+        @php
+            $allDone = $checklist?->absensi && $checklist?->penyerahan_tagging;
+            $waNum   = preg_replace('/\D/', '', $hewan->nomor_wa ?? '');
+            if (str_starts_with($waNum, '0')) $waNum = '62' . substr($waNum, 1);
+            $pesanEncoded = rawurlencode(\App\Services\WhatsAppService::buildPesan($hewan->nama_pekurban, $hewan->kode_registrasi));
+            $waManualUrl  = $allDone ? 'https://wa.me/' . $waNum . '?text=' . $pesanEncoded : null;
+        @endphp
         <div class="mt-2 d-flex align-items-center gap-2 flex-wrap">
             <span class="badge bg-success fs-6 px-3 py-2">
                 <i class="bi bi-qr-code me-1"></i>Kode: {{ $hewan->kode_registrasi }}
@@ -30,6 +48,11 @@
                     <i class="bi bi-whatsapp me-1"></i>Kirim WA
                 </button>
             </form>
+            @endif
+            @if($waManualUrl)
+            <a href="{{ $waManualUrl }}" target="_blank" class="btn btn-outline-success btn-sm">
+                <i class="bi bi-whatsapp me-1"></i>WA Manual
+            </a>
             @endif
         </div>
         @endif
