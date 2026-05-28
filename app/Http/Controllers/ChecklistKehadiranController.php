@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Hewan;
 use App\Models\ChecklistKehadiran;
 use App\Services\WhatsAppService;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class ChecklistKehadiranController extends Controller
@@ -68,7 +69,8 @@ class ChecklistKehadiranController extends Controller
     public function show(Hewan $hewan)
     {
         $checklist = $hewan->checklistKehadiran;
-        return view('checklist.kehadiran.show', compact('hewan', 'checklist'));
+        $waEnabled = WhatsAppService::isEnabled();
+        return view('checklist.kehadiran.show', compact('hewan', 'checklist', 'waEnabled'));
     }
 
     public function update(Request $request, Hewan $hewan, WhatsAppService $wa)
@@ -104,6 +106,10 @@ class ChecklistKehadiranController extends Controller
 
     public function kirimWa(Hewan $hewan, WhatsAppService $wa)
     {
+        if (!WhatsAppService::isEnabled()) {
+            return back()->with('error', 'WhatsApp API sedang dimatikan. Aktifkan terlebih dahulu di Pengaturan.');
+        }
+
         if (!$hewan->kode_registrasi) {
             return back()->with('error', 'Kode registrasi belum digenerate.');
         }

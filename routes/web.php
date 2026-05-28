@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PublicJourneyController;
+use App\Http\Controllers\SettingController;
 use App\Models\Hewan;
 use App\Models\ChecklistKandang;
 use App\Models\ChecklistSembelih;
@@ -111,5 +112,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::resource('users', UserController::class);
         Route::get('/logs', [ActivityLogController::class, 'index'])->name('logs.index');
+        Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+        Route::post('/settings/wa/toggle', [SettingController::class, 'toggleWa'])->name('settings.wa.toggle');
     });
 });

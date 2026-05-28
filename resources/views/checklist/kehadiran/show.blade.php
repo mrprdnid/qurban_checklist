@@ -44,8 +44,10 @@
             <form method="POST" action="{{ route('checklist.kehadiran.kirim-wa', $hewan) }}" class="mb-0"
                   onsubmit="return confirm('Kirim ulang WhatsApp ke {{ $hewan->nomor_wa }}?')">
                 @csrf
-                <button type="submit" class="btn btn-success btn-sm">
+                <button type="submit" class="btn btn-success btn-sm" {{ $waEnabled ? '' : 'disabled' }}
+                        title="{{ $waEnabled ? '' : 'WhatsApp API sedang dimatikan' }}">
                     <i class="bi bi-whatsapp me-1"></i>Kirim WA
+                    @if(!$waEnabled)<i class="bi bi-slash-circle ms-1"></i>@endif
                 </button>
             </form>
             @endif

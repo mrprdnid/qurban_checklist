@@ -47,4 +47,7 @@
 <a href="{{ route('logs.index') }}" class="nav-link {{ request()->routeIs('logs.*') ? 'active' : '' }}">
     <i class="bi bi-journal-text"></i> Log Aktivitas
 </a>
+<a href="{{ route('settings.index') }}" class="nav-link {{ request()->routeIs('settings.*') ? 'active' : '' }}">
+    <i class="bi bi-gear"></i> Pengaturan
+</a>
 @endif

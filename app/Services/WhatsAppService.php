@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Setting;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -13,8 +14,18 @@ class WhatsAppService
         return "Assalamu'alaikum, $namaPekurban.\nBismillah... Journey Qurbannya dimulai.\n\nKode Qurbanmu: $kodeRegistrasi.\n\nPantau perjalanan qurbanmu di sini:\n$journeyUrl\n\nSampaikan Kode Qurbanmu saat pengambilan bagian hewan kurbanmu nanti. Kalau mau diambil oleh Ojek Online atau perantara lain, jangan lupa sampaikan Kode Qurbanmu ke perantaramu.\n\nJazakumullahu khairan katsiran.\n\n.:: Panitia Qurban KAF Pusat Depok 1447H ::.";
     }
 
+    public static function isEnabled(): bool
+    {
+        return (bool) Setting::get('wa_enabled', true);
+    }
+
     public function sendRegistrasiKehadiran(string $nomor, string $namaPekurban, string $kodeRegistrasi): bool
     {
+        if (!self::isEnabled()) {
+            Log::info('WhatsApp API dimatikan, pesan tidak dikirim', ['nomor' => $nomor]);
+            return false;
+        }
+
         try {
             $pesan = self::buildPesan($namaPekurban, $kodeRegistrasi);
             $response = Http::timeout(10)
