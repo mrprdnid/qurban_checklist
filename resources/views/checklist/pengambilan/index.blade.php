@@ -31,6 +31,7 @@
             @if($h->nama_hewan)<span class="text-muted small">— {{ $h->nama_hewan }}</span>@endif
         </div>
         <div class="small text-muted">{{ $h->nama_pekurban }}</div>
+        @if($h->keterangan)<div class="small text-muted fst-italic mt-1">{{ $h->keterangan }}</div>@endif
         @if($h->kode_registrasi)
         <div class="mt-1">
             <span class="badge bg-success" style="font-size:.7rem; letter-spacing:.05em">
