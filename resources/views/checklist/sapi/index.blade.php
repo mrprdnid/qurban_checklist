@@ -20,8 +20,8 @@
 @forelse($hewan as $h)
 @php
     $cl = $h->checklistSapi;
-    $total = 6;
-    $done = ($cl?->foto_hidup?1:0) + ($cl?->video_sembelih?1:0) + ($cl?->mulai_seset?1:0) + ($cl?->bagian_pekurban?1:0) + ($cl?->kesesuaian_bagian?1:0) + ($cl?->otw_pengambilan?1:0);
+    $total = 5;
+    $done = ($cl?->foto_hidup?1:0) + ($cl?->video_sembelih?1:0) + ($cl?->mulai_seset?1:0) + ($cl?->kesesuaian_bagian?1:0) + ($cl?->otw_pengambilan?1:0);
 @endphp
 <a href="{{ route('checklist.sapi.show', $h) }}" class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-3">
     <div class="flex-grow-1 min-w-0">

@@ -28,9 +28,8 @@
             @foreach([
                 ['field'=>'foto_hidup',        'label'=>'Foto Hidup',         'at'=>'foto_hidup_at'],
                 ['field'=>'video_sembelih',    'label'=>'Video Sembelih',     'at'=>'video_sembelih_at'],
-                ['field'=>'mulai_seset',       'label'=>'Mulai Seset',        'at'=>'mulai_seset_at'],
-                ['field'=>'bagian_pekurban',   'label'=>'Bagian Pekurban',    'at'=>'bagian_pekurban_at'],
-                ['field'=>'kesesuaian_bagian',  'label'=>'Kesesuaian Bagian',  'at'=>'kesesuaian_bagian_at'],
+                ['field'=>'mulai_seset',       'label'=>'Mulai Seset',                  'at'=>'mulai_seset_at'],
+                ['field'=>'kesesuaian_bagian', 'label'=>'Kesesuaian Bagian Pekurban',  'at'=>'kesesuaian_bagian_at'],
                 ['field'=>'otw_pengambilan',    'label'=>'OTW Pengambilan',    'at'=>'otw_pengambilan_at'],
             ] as $item)
             <div class="d-flex align-items-center px-3 py-3 border-bottom">

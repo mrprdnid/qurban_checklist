@@ -53,7 +53,6 @@ Route::middleware('auth')->group(function () {
         $sapiProgress = (object)[
             'foto_hidup'       => ChecklistSapi::where('foto_hidup', true)->count(),
             'video_sembelih'   => ChecklistSapi::where('video_sembelih', true)->count(),
-            'bagian_pekurban'  => ChecklistSapi::where('bagian_pekurban', true)->count(),
             'kesesuaian_bagian'=> ChecklistSapi::where('kesesuaian_bagian', true)->count(),
             'otw_pengambilan'  => ChecklistSapi::where('otw_pengambilan', true)->count(),
         ];

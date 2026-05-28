@@ -77,7 +77,7 @@
         <div class="card border-0 shadow-sm">
             <div class="card-header card-header-green fw-bold"><i class="bi bi-scissors me-1"></i> Progress Checklist Sapi</div>
             <div class="card-body">
-                @foreach([['label'=>'Foto Hidup','val'=>$sapiProgress->foto_hidup??0],['label'=>'Video Sembelih','val'=>$sapiProgress->video_sembelih??0],['label'=>'Bagian Pekurban','val'=>$sapiProgress->bagian_pekurban??0],['label'=>'Kesesuaian Bagian','val'=>$sapiProgress->kesesuaian_bagian??0],['label'=>'OTW Pengambilan','val'=>$sapiProgress->otw_pengambilan??0]] as $item)
+                @foreach([['label'=>'Foto Hidup','val'=>$sapiProgress->foto_hidup??0],['label'=>'Video Sembelih','val'=>$sapiProgress->video_sembelih??0],['label'=>'Kesesuaian Bagian Pekurban','val'=>$sapiProgress->kesesuaian_bagian??0],['label'=>'OTW Pengambilan','val'=>$sapiProgress->otw_pengambilan??0]] as $item)
                 <div class="d-flex justify-content-between align-items-center mb-1">
                     <span class="small">{{ $item['label'] }}</span>
                     <span class="badge bg-warning text-dark">{{ $item['val'] }} / {{ $totalSapi }}</span>
