@@ -131,6 +131,7 @@
                 'items' => [
                     ['label' => 'Foto Hidup',        'done' => (bool)$sapi?->foto_hidup,        'at' => $sapi?->foto_hidup_at],
                     ['label' => 'Video Sembelih',    'done' => (bool)$sapi?->video_sembelih,    'at' => $sapi?->video_sembelih_at],
+                    ['label' => 'Mulai Seset',       'done' => (bool)$sapi?->mulai_seset,       'at' => $sapi?->mulai_seset_at],
                     ['label' => 'Bagian Pekurban',   'done' => (bool)$sapi?->bagian_pekurban,   'at' => $sapi?->bagian_pekurban_at],
                     ['label' => 'Kesesuaian Bagian', 'done' => (bool)$sapi?->kesesuaian_bagian, 'at' => $sapi?->kesesuaian_bagian_at],
                     ['label' => 'OTW Pengambilan',   'done' => (bool)$sapi?->otw_pengambilan,   'at' => $sapi?->otw_pengambilan_at],

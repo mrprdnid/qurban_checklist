@@ -25,12 +25,12 @@ class ChecklistSapiController extends Controller
             }))
             ->leftJoin('checklist_sapi', 'checklist_sapi.hewan_id', '=', 'hewan.id')
             ->select('hewan.*')
-            ->when($status === 'selesai',  fn($q) => $q->whereRaw('checklist_sapi.foto_hidup = 1 AND checklist_sapi.video_sembelih = 1 AND checklist_sapi.bagian_pekurban = 1 AND checklist_sapi.kesesuaian_bagian = 1 AND checklist_sapi.otw_pengambilan = 1'))
-            ->when($status === 'belum',    fn($q) => $q->where(fn($x) => $x->whereNull('checklist_sapi.id')->orWhereRaw('(checklist_sapi.foto_hidup + checklist_sapi.video_sembelih + checklist_sapi.bagian_pekurban + checklist_sapi.kesesuaian_bagian + checklist_sapi.otw_pengambilan) = 0')))
-            ->when($status === 'progress', fn($q) => $q->whereNotNull('checklist_sapi.id')->whereRaw('(checklist_sapi.foto_hidup + checklist_sapi.video_sembelih + checklist_sapi.bagian_pekurban + checklist_sapi.kesesuaian_bagian + checklist_sapi.otw_pengambilan) > 0')->whereRaw('NOT (checklist_sapi.foto_hidup = 1 AND checklist_sapi.video_sembelih = 1 AND checklist_sapi.bagian_pekurban = 1 AND checklist_sapi.kesesuaian_bagian = 1 AND checklist_sapi.otw_pengambilan = 1)'))
+            ->when($status === 'selesai',  fn($q) => $q->whereRaw('checklist_sapi.foto_hidup = 1 AND checklist_sapi.video_sembelih = 1 AND checklist_sapi.mulai_seset = 1 AND checklist_sapi.bagian_pekurban = 1 AND checklist_sapi.kesesuaian_bagian = 1 AND checklist_sapi.otw_pengambilan = 1'))
+            ->when($status === 'belum',    fn($q) => $q->where(fn($x) => $x->whereNull('checklist_sapi.id')->orWhereRaw('(checklist_sapi.foto_hidup + checklist_sapi.video_sembelih + checklist_sapi.mulai_seset + checklist_sapi.bagian_pekurban + checklist_sapi.kesesuaian_bagian + checklist_sapi.otw_pengambilan) = 0')))
+            ->when($status === 'progress', fn($q) => $q->whereNotNull('checklist_sapi.id')->whereRaw('(checklist_sapi.foto_hidup + checklist_sapi.video_sembelih + checklist_sapi.mulai_seset + checklist_sapi.bagian_pekurban + checklist_sapi.kesesuaian_bagian + checklist_sapi.otw_pengambilan) > 0')->whereRaw('NOT (checklist_sapi.foto_hidup = 1 AND checklist_sapi.video_sembelih = 1 AND checklist_sapi.mulai_seset = 1 AND checklist_sapi.bagian_pekurban = 1 AND checklist_sapi.kesesuaian_bagian = 1 AND checklist_sapi.otw_pengambilan = 1)'))
             ->when($sort,
                 fn($q) => $q->orderBy('hewan.' . $sort, $dir),
-                fn($q) => $q->orderByRaw('CASE WHEN checklist_sapi.foto_hidup = 1 AND checklist_sapi.video_sembelih = 1 AND checklist_sapi.bagian_pekurban = 1 AND checklist_sapi.kesesuaian_bagian = 1 AND checklist_sapi.otw_pengambilan = 1 THEN 1 ELSE 0 END ASC')->orderBy('hewan.id', 'desc')
+                fn($q) => $q->orderByRaw('CASE WHEN checklist_sapi.foto_hidup = 1 AND checklist_sapi.video_sembelih = 1 AND checklist_sapi.mulai_seset = 1 AND checklist_sapi.bagian_pekurban = 1 AND checklist_sapi.kesesuaian_bagian = 1 AND checklist_sapi.otw_pengambilan = 1 THEN 1 ELSE 0 END ASC')->orderBy('hewan.id', 'desc')
             )
             ->paginate(20)
             ->withQueryString();
@@ -48,7 +48,7 @@ class ChecklistSapiController extends Controller
     {
         $checklist = $hewan->checklistSapi ?? new ChecklistSapi(['hewan_id' => $hewan->id]);
 
-        foreach (['foto_hidup', 'video_sembelih', 'bagian_pekurban', 'kesesuaian_bagian', 'otw_pengambilan'] as $field) {
+        foreach (['foto_hidup', 'video_sembelih', 'mulai_seset', 'bagian_pekurban', 'kesesuaian_bagian', 'otw_pengambilan'] as $field) {
             $newValue = $request->boolean($field);
             if ($newValue && !$checklist->$field) {
                 $checklist->{$field . '_at'} = now();
