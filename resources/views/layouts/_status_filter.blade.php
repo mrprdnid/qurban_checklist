@@ -9,7 +9,7 @@ $filters = [
 <div class="d-flex gap-2 mb-3 flex-wrap">
     @foreach($filters as $val => $f)
     @php $active = ($status ?? '') === $val; @endphp
-    <a href="{{ route($filterRoute, array_filter(['q' => $q ?? null, 'status' => $val ?: null, 'sort' => request()->query('sort') ?: null, 'direction' => request()->query('direction') ?: null])) }}"
+    <a href="{{ route($filterRoute, array_filter(['q' => $q ?? null, 'status' => $val ?: null, 'sort' => request()->query('sort') ?: null, 'direction' => request()->query('direction') ?: null, 'jenis' => request()->query('jenis') ?: null])) }}"
        class="btn btn-sm {{ $active ? $f['solid'] : $f['outline'] }}">
         {{ $f['label'] }}
     </a>
