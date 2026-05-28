@@ -30,11 +30,8 @@
         </div>
         @if($hewan->kode_registrasi)
         @php
-            $allDone = $checklist?->absensi && $checklist?->penyerahan_tagging;
-            $waNum   = preg_replace('/\D/', '', $hewan->nomor_wa ?? '');
-            if (str_starts_with($waNum, '0')) $waNum = '62' . substr($waNum, 1);
-            $pesanEncoded = rawurlencode(\App\Services\WhatsAppService::buildPesan($hewan->nama_pekurban, $hewan->kode_registrasi));
-            $waManualUrl  = $allDone ? 'https://wa.me/' . $waNum . '?text=' . $pesanEncoded : null;
+            $allDone      = $checklist?->absensi && $checklist?->penyerahan_tagging;
+            $waManualCount = $checklist?->wa_manual_count ?? 0;
         @endphp
         <div class="mt-2 d-flex align-items-center gap-2 flex-wrap">
             <span class="badge bg-success fs-6 px-3 py-2">
@@ -51,10 +48,16 @@
                 </button>
             </form>
             @endif
-            @if($waManualUrl)
-            <a href="{{ $waManualUrl }}" target="_blank" class="btn btn-outline-success btn-sm">
-                <i class="bi bi-whatsapp me-1"></i>WA Manual
-            </a>
+            @if($allDone)
+            <div class="d-flex align-items-center gap-1">
+                <a href="{{ route('checklist.kehadiran.wa-manual', $hewan) }}" target="_blank"
+                   class="btn btn-outline-success btn-sm">
+                    <i class="bi bi-whatsapp me-1"></i>WA Manual
+                </a>
+                @if($waManualCount > 0)
+                <span class="badge bg-secondary" title="Sudah diklik {{ $waManualCount }}x">{{ $waManualCount }}×</span>
+                @endif
+            </div>
             @endif
         </div>
         @endif

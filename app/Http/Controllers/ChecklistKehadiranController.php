@@ -126,6 +126,28 @@ class ChecklistKehadiranController extends Controller
         );
     }
 
+    public function waManual(Hewan $hewan)
+    {
+        if (!$hewan->kode_registrasi) {
+            return redirect()->route('checklist.kehadiran.show', $hewan);
+        }
+
+        $checklist = $hewan->checklistKehadiran
+            ?? new \App\Models\ChecklistKehadiran(['hewan_id' => $hewan->id]);
+
+        if (!$checklist->exists) {
+            $checklist->save();
+        }
+
+        $checklist->increment('wa_manual_count');
+
+        $waNum = preg_replace('/\D/', '', $hewan->nomor_wa ?? '');
+        if (str_starts_with($waNum, '0')) $waNum = '62' . substr($waNum, 1);
+        $pesan = rawurlencode(WhatsAppService::buildPesan($hewan->nama_pekurban, $hewan->kode_registrasi));
+
+        return redirect('https://wa.me/' . $waNum . '?text=' . $pesan);
+    }
+
     private function generateKode(): string
     {
         $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';

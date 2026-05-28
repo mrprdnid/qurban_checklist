@@ -104,6 +104,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/checklist/kehadiran/{hewan}', [ChecklistKehadiranController::class, 'show'])->name('checklist.kehadiran.show');
     Route::patch('/checklist/kehadiran/{hewan}', [ChecklistKehadiranController::class, 'update'])->name('checklist.kehadiran.update');
     Route::post('/checklist/kehadiran/{hewan}/kirim-wa', [ChecklistKehadiranController::class, 'kirimWa'])->name('checklist.kehadiran.kirim-wa');
+    Route::get('/checklist/kehadiran/{hewan}/wa-manual', [ChecklistKehadiranController::class, 'waManual'])->name('checklist.kehadiran.wa-manual');
 
     // Laporan
     Route::get('/laporan/sembelih', [LaporanController::class, 'sembelih'])->name('laporan.sembelih');

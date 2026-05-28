@@ -11,7 +11,7 @@ class ChecklistKehadiran extends Model
 
     protected $table = 'checklist_kehadiran';
 
-    protected $fillable = ['hewan_id', 'absensi', 'absensi_at', 'penyerahan_tagging', 'penyerahan_tagging_at'];
+    protected $fillable = ['hewan_id', 'absensi', 'absensi_at', 'penyerahan_tagging', 'penyerahan_tagging_at', 'wa_manual_count'];
 
     protected $casts = [
         'absensi'            => 'boolean',
