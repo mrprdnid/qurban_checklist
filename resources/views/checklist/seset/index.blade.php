@@ -20,7 +20,7 @@
 @forelse($hewan as $h)
 @php
     $cl = $h->checklistSeset;
-    $done = ($cl?->bagian_pekurban?1:0) + ($cl?->kesesuaian_bagian?1:0) + ($cl?->otw_pengambilan?1:0);
+    $done = ($cl?->mulai_seset?1:0) + ($cl?->bagian_pekurban?1:0) + ($cl?->kesesuaian_bagian?1:0) + ($cl?->otw_pengambilan?1:0);
 @endphp
 <a href="{{ route('checklist.seset.show', $h) }}" class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-3">
     <div class="flex-grow-1 min-w-0">
@@ -31,8 +31,8 @@
         <div class="small text-muted">{{ $h->nama_pekurban }}</div>
     </div>
     <div class="text-end flex-shrink-0">
-        @if($done === 3)<span class="badge bg-success">Selesai</span>
-        @elseif($done > 0)<span class="badge bg-warning text-dark">{{ $done }}/3</span>
+        @if($done === 4)<span class="badge bg-success">Selesai</span>
+        @elseif($done > 0)<span class="badge bg-warning text-dark">{{ $done }}/4</span>
         @else<span class="badge bg-secondary">Belum</span>@endif
         <i class="bi bi-chevron-right text-muted ms-2"></i>
     </div>

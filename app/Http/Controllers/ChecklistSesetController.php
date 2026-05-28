@@ -25,12 +25,12 @@ class ChecklistSesetController extends Controller
             }))
             ->leftJoin('checklist_seset', 'checklist_seset.hewan_id', '=', 'hewan.id')
             ->select('hewan.*')
-            ->when($status === 'selesai',  fn($q) => $q->whereRaw('checklist_seset.bagian_pekurban = 1 AND checklist_seset.kesesuaian_bagian = 1 AND checklist_seset.otw_pengambilan = 1'))
-            ->when($status === 'belum',    fn($q) => $q->where(fn($x) => $x->whereNull('checklist_seset.id')->orWhereRaw('(checklist_seset.bagian_pekurban + checklist_seset.kesesuaian_bagian + checklist_seset.otw_pengambilan) = 0')))
-            ->when($status === 'progress', fn($q) => $q->whereNotNull('checklist_seset.id')->whereRaw('(checklist_seset.bagian_pekurban + checklist_seset.kesesuaian_bagian + checklist_seset.otw_pengambilan) > 0')->whereRaw('NOT (checklist_seset.bagian_pekurban = 1 AND checklist_seset.kesesuaian_bagian = 1 AND checklist_seset.otw_pengambilan = 1)'))
+            ->when($status === 'selesai',  fn($q) => $q->whereRaw('checklist_seset.mulai_seset = 1 AND checklist_seset.bagian_pekurban = 1 AND checklist_seset.kesesuaian_bagian = 1 AND checklist_seset.otw_pengambilan = 1'))
+            ->when($status === 'belum',    fn($q) => $q->where(fn($x) => $x->whereNull('checklist_seset.id')->orWhereRaw('(checklist_seset.mulai_seset + checklist_seset.bagian_pekurban + checklist_seset.kesesuaian_bagian + checklist_seset.otw_pengambilan) = 0')))
+            ->when($status === 'progress', fn($q) => $q->whereNotNull('checklist_seset.id')->whereRaw('(checklist_seset.mulai_seset + checklist_seset.bagian_pekurban + checklist_seset.kesesuaian_bagian + checklist_seset.otw_pengambilan) > 0')->whereRaw('NOT (checklist_seset.mulai_seset = 1 AND checklist_seset.bagian_pekurban = 1 AND checklist_seset.kesesuaian_bagian = 1 AND checklist_seset.otw_pengambilan = 1)'))
             ->when($sort,
                 fn($q) => $q->orderBy('hewan.' . $sort, $dir),
-                fn($q) => $q->orderByRaw('CASE WHEN checklist_seset.bagian_pekurban = 1 AND checklist_seset.kesesuaian_bagian = 1 AND checklist_seset.otw_pengambilan = 1 THEN 1 ELSE 0 END ASC')->orderBy('hewan.id', 'desc')
+                fn($q) => $q->orderByRaw('CASE WHEN checklist_seset.mulai_seset = 1 AND checklist_seset.bagian_pekurban = 1 AND checklist_seset.kesesuaian_bagian = 1 AND checklist_seset.otw_pengambilan = 1 THEN 1 ELSE 0 END ASC')->orderBy('hewan.id', 'desc')
             )
             ->paginate(20)
             ->withQueryString();
@@ -48,7 +48,7 @@ class ChecklistSesetController extends Controller
     {
         $checklist = $hewan->checklistSeset ?? new ChecklistSeset(['hewan_id' => $hewan->id]);
 
-        foreach (['bagian_pekurban', 'kesesuaian_bagian', 'otw_pengambilan'] as $field) {
+        foreach (['mulai_seset', 'bagian_pekurban', 'kesesuaian_bagian', 'otw_pengambilan'] as $field) {
             $newValue = $request->boolean($field);
             if ($newValue && !$checklist->$field) {
                 $checklist->{$field . '_at'} = now();

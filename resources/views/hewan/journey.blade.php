@@ -66,6 +66,7 @@ if ($hewan->jenis === 'domba') {
             'icon'    => 'bi-tools',
             'route'   => route('checklist.seset.show', $hewan),
             'items'   => [
+                ['label' => 'Mulai Seset',       'done' => (bool)$seset?->mulai_seset,       'at' => $seset?->mulai_seset_at],
                 ['label' => 'Bagian Pekurban',   'done' => (bool)$seset?->bagian_pekurban,   'at' => $seset?->bagian_pekurban_at],
                 ['label' => 'Kesesuaian Bagian', 'done' => (bool)$seset?->kesesuaian_bagian, 'at' => $seset?->kesesuaian_bagian_at],
                 ['label' => 'OTW Pengambilan',   'done' => (bool)$seset?->otw_pengambilan,   'at' => $seset?->otw_pengambilan_at],
