@@ -37,7 +37,9 @@ class ChecklistKehadiranController extends Controller
             }))
             ->when($sort,
                 fn($q) => $q->orderBy('hewan.' . $sort, $dir),
-                fn($q) => $q->orderByRaw('CASE WHEN checklist_kehadiran.absensi = 1 AND checklist_kehadiran.penyerahan_tagging = 1 THEN 1 ELSE 0 END ASC')->orderBy('hewan.id', 'desc')
+                fn($q) => $status === 'progress'
+                    ? $q->orderByRaw('CASE WHEN checklist_kehadiran.absensi_at IS NULL THEN 1 ELSE 0 END ASC')->orderBy('checklist_kehadiran.absensi_at', 'asc')
+                    : $q->orderByRaw('CASE WHEN checklist_kehadiran.absensi = 1 AND checklist_kehadiran.penyerahan_tagging = 1 THEN 1 ELSE 0 END ASC')->orderBy('hewan.id', 'desc')
             )
             ->paginate(20)
             ->withQueryString();

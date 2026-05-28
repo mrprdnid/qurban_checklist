@@ -33,6 +33,9 @@
             <span class="badge {{ $h->jenis === 'domba' ? 'bg-primary' : 'bg-warning text-dark' }} ms-1" style="font-size:.65rem">{{ ucfirst($h->jenis) }}</span>
         </div>
         <div class="small text-muted">{{ $h->nama_pekurban }}</div>
+        @if($cl?->absensi_at)
+        <div class="small text-success mt-1"><i class="bi bi-clock me-1"></i>Absen {{ $cl->absensi_at->format('H:i, d M') }}</div>
+        @endif
         @if($h->kode_registrasi)
         <div class="mt-1">
             <span class="badge bg-success" style="font-size:.7rem; letter-spacing:.05em">
