@@ -64,6 +64,7 @@
         $done = ($cl?->absensi ? 1 : 0) + ($cl?->penyerahan_tagging ? 1 : 0);
     @endphp
     <a href="{{ route('checklist.kehadiran.show', $h) }}" class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-2">
+        <div class="text-muted text-center flex-shrink-0" style="width:1.5rem;font-size:.75rem">{{ $loop->iteration }}</div>
         <div class="flex-grow-1 min-w-0">
             <div class="d-flex align-items-center gap-2">
                 <span class="fw-semibold small">{{ $h->nomor_urut }}</span>
@@ -111,6 +112,7 @@
     $total = 2;
 @endphp
 <a href="{{ route('checklist.kehadiran.show', $h) }}" class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-3">
+    <div class="text-muted text-center flex-shrink-0" style="width:1.5rem;font-size:.75rem">{{ $hewan->firstItem() + $loop->index }}</div>
     <div class="flex-grow-1 min-w-0">
         <div class="d-flex align-items-center gap-2 mb-1">
             <span class="fw-bold">{{ $h->nomor_urut }}</span>
