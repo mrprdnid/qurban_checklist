@@ -29,6 +29,11 @@
     <i class="bi bi-scissors"></i> Checklist Sapi
 </a>
 
+<div class="sidebar-header mt-2">Laporan</div>
+<a href="{{ route('laporan.sembelih') }}" class="nav-link {{ request()->routeIs('laporan.*') ? 'active' : '' }}">
+    <i class="bi bi-bar-chart-fill"></i> Lap. Sembelih Domba
+</a>
+
 <div class="sidebar-header mt-2">Pengambilan</div>
 <a href="{{ route('checklist.pengambilan') }}" class="nav-link {{ request()->routeIs('checklist.pengambilan*') ? 'active' : '' }}">
     <i class="bi bi-bag-check"></i> Pengambilan Bagian

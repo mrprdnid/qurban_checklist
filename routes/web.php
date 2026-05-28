@@ -12,6 +12,7 @@ use App\Http\Controllers\ChecklistKehadiranController;
 use App\Http\Controllers\HewanImportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PublicJourneyController;
 use App\Models\Hewan;
 use App\Models\ChecklistKandang;
@@ -102,6 +103,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/checklist/kehadiran/{hewan}', [ChecklistKehadiranController::class, 'show'])->name('checklist.kehadiran.show');
     Route::patch('/checklist/kehadiran/{hewan}', [ChecklistKehadiranController::class, 'update'])->name('checklist.kehadiran.update');
     Route::post('/checklist/kehadiran/{hewan}/kirim-wa', [ChecklistKehadiranController::class, 'kirimWa'])->name('checklist.kehadiran.kirim-wa');
+
+    // Laporan
+    Route::get('/laporan/sembelih', [LaporanController::class, 'sembelih'])->name('laporan.sembelih');
 
     // Admin only
     Route::middleware('admin')->group(function () {
