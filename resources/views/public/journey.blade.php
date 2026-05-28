@@ -108,8 +108,8 @@
                 'label' => 'Pengambilan Bagian',
                 'icon'  => 'bi-bag-check',
                 'items' => [
-                    ['label' => 'Kesesuaian Bagian', 'done' => (bool)$pengambilan?->kesesuaian_bagian, 'at' => $pengambilan?->kesesuaian_bagian_at],
-                    ['label' => 'Sudah Diambil',     'done' => (bool)$pengambilan?->sudah_diambil,     'at' => $pengambilan?->sudah_diambil_at],
+                    ['label' => 'Bagian Pekurban Siap Diambil', 'done' => (bool)$pengambilan?->kesesuaian_bagian, 'at' => $pengambilan?->kesesuaian_bagian_at],
+                    ['label' => 'Sudah Diambil',               'done' => (bool)$pengambilan?->sudah_diambil,     'at' => $pengambilan?->sudah_diambil_at],
                 ],
             ],
         ];
@@ -140,8 +140,8 @@
                 'label' => 'Pengambilan Bagian',
                 'icon'  => 'bi-bag-check',
                 'items' => [
-                    ['label' => 'Kesesuaian Bagian', 'done' => (bool)$pengambilan?->kesesuaian_bagian, 'at' => $pengambilan?->kesesuaian_bagian_at],
-                    ['label' => 'Sudah Diambil',     'done' => (bool)$pengambilan?->sudah_diambil,     'at' => $pengambilan?->sudah_diambil_at],
+                    ['label' => 'Bagian Pekurban Siap Diambil', 'done' => (bool)$pengambilan?->kesesuaian_bagian, 'at' => $pengambilan?->kesesuaian_bagian_at],
+                    ['label' => 'Sudah Diambil',               'done' => (bool)$pengambilan?->sudah_diambil,     'at' => $pengambilan?->sudah_diambil_at],
                 ],
             ],
         ];

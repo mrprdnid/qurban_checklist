@@ -36,7 +36,7 @@
         <form action="{{ route('checklist.pengambilan.update', $hewan) }}" method="POST">
             @csrf @method('PATCH')
             @foreach([
-                ['field'=>'kesesuaian_bagian', 'label'=>'Kesesuaian Bagian', 'at'=>'kesesuaian_bagian_at'],
+                ['field'=>'kesesuaian_bagian', 'label'=>'Bagian Pekurban Siap Diambil', 'at'=>'kesesuaian_bagian_at'],
                 ['field'=>'sudah_diambil',     'label'=>'Sudah Diambil',     'at'=>'sudah_diambil_at'],
             ] as $item)
             <div class="d-flex align-items-center px-3 py-3 border-bottom">
